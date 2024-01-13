@@ -11,8 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 
-    <!-- Feather Icons -->
-    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- Icons -->
+    <link rel="stylesheet" href=  
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/style.css" />
@@ -22,26 +23,46 @@
     <!-- Navbar start -->
     <nav class="navbar">
         <div class="navbar-main">
-            <a href="#" id="menu"><i data-feather="menu"></i></a>
+            <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a>
             <a href="#" id="navbar-logo">Smart <span>Farm.</span></a>
         </div>
         
         <div class="search-container">
             <form action="/action_page.php">
-                <button type="submit"><i class="search-logo" data-feather="search"></i></button>
+                <button type="submit"><i class="fa fa-search fa-lg"></i></button>
                 <input type="text" placeholder="Search..">
             </form>
         </div>
 
         <div class="account-info">
-            <a href="#" id="notification"><i data-feather="bell"></i></a>
-            <a href="#" id="user"><i data-feather="user"></i></a>
+            <a href="#" id="notification"><i class="fa fa-bell-o fa-lg"></i></a>
+            <a href="#" id="user"><i class="fa fa-user-o fa-lg"></i></a>
         </div>
     </nav>
     <!-- Navbar end -->
 
-    <script>
-      feather.replace();
-    </script>
+    <div class="wrapper">
+        <!-- Sidebar start -->
+        <div id="sidebar" class="sidebar">
+            <!-- menu item -->
+            <ul>
+                <li><a href="#" class="active">
+                    <span class="icon"><i class="fa fa-television fa-lg"></i></span>
+                    <span class="item">Monitor</span>
+                </a></li>
+                <li><a href="#">
+                    <span class="icon"><i class="fa fa-gears fa-lg"></i></span>
+                    <span class="item">Control</span>
+                </a></li>
+            </ul>
+        </div>
+        <!-- Sidebar end -->
+    </div>
+
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- Now active menu button -->
+    <script src="/js/script.js"></script>
   </body>
 </html>

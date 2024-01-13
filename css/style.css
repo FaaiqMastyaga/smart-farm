@@ -1,0 +1,104 @@
+:root {
+    --primary: #05ed14;
+    --bg: #caf2cc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+}
+
+body {
+    background-origin: var(--bg);
+    color: #000000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid var(--bg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+.navbar .navbar-main a {
+    display: inline-block;
+    margin: 0 0.3rem;
+}
+
+#menu {
+    color: #adadad;
+}
+
+#menu:hover {
+    color: #000000;
+}
+
+#navbar-logo {
+    font-family: 'Comic Neue';
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.navbar .navbar-main span {
+    color: #000000;
+}
+
+.navbar .search-container {
+    background-color: #f5f5f5;
+    border-radius: 0.3rem;
+}
+
+.navbar .search-container button {
+    margin-left: 0.25rem;
+    padding: 0.1rem;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    border-radius: 0.3rem;
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.navbar .search-container button:hover {
+    background-color: #08db16;
+    cursor: pointer;
+}
+
+.navbar .search-container .search-logo {
+    width: 1rem;
+    height: 1rem;
+}
+
+.navbar input[type=text] {
+    background-color: #f5f5f5;
+    color: #757575;
+    padding: 0.4rem;
+    margin: 0 0.5rem;
+    font-size: 1rem;
+    border: none;
+}
+
+.navbar .navbar-search a {
+    color: #fff;
+    background-color: var(--primary);
+}
+
+.navbar .account-info a {
+    color: #adadad;
+    margin: 0 0.5rem;
+}
+
+.navbar .account-info a:hover {
+    color: #000000;
+}

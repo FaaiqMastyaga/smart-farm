@@ -1,6 +1,6 @@
 :root {
   --primary: #05ed14;
-  --bg: #caf2cc;
+  --bg: #f3fdf3;
 }
 
 * {
@@ -25,6 +25,7 @@ body {
   box-shadow: 0px 4px 7px -2px rgba(0, 0, 0, 0.11);
   -webkit-box-shadow: 0px 4px 7px -2px rgba(0, 0, 0, 0.11);
   -moz-box-shadow: 0px 4px 7px -2px rgba(0, 0, 0, 0.11);
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -97,20 +98,22 @@ body {
   color: #000000;
 }
 
+.wrapper {
+  margin-top: 3.5rem;
+}
 .wrapper .sidebar {
   background: #fff;
   box-shadow: 5px 2px 8px -1px rgba(0, 0, 0, 0.11);
   -webkit-box-shadow: 5px 2px 8px -1px rgba(0, 0, 0, 0.11);
   -moz-box-shadow: 5px 2px 8px -1px rgba(0, 0, 0, 0.11);
   position: fixed;
-  top: 60px;
   left: -100%;
   width: 275px;
   height: 100vh;
   padding-top: 30px;
   padding-bottom: 20px;
   padding-right: 10px;
-  transition: all 0.6s ease;
+  transition: all 0.5s ease;
 }
 
 .wrapper .sidebar ul {
@@ -147,4 +150,16 @@ body {
   background: var(--primary);
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+}
+
+.wrapper .section {
+  background: var(--bg);
+  width: 100vw;
+  height: 100vw;
+  transition: margin-left 0.6s ease, width 1s ease;
+}
+
+.wrapper .section.shrink {
+  margin-left: 275px;
+  width: calc(100vw - 275px);
 }

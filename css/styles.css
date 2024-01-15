@@ -226,8 +226,8 @@ body {
   box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
   -webkit-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
   -moz-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
-  width: 13rem;
-  height: 13rem;
+  width: 15rem;
+  height: 15rem;
   margin-right: 1rem;
   margin-bottom: 1rem;
   flex-direction: column;

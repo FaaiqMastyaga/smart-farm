@@ -35,14 +35,36 @@ text-align: center;
 border-radius: 0.3rem;
 }
 
+.wrapper .section .card-container #plant-card .card-info {
+    margin-top: 0.5rem;
+    padding: 0 2.2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper .section .card-container #plant-card .card-info {
+    text-align: center;
+}
+
+.wrapper .section .card-container #plant-card .card-info p {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #000000;
+}
+
+.wrapper .section .card-container #plant-card .card-info span {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 .wrapper .section .card-container #plus-card {
-padding-top: 1.75rem;
-text-align: center;
+    padding-top: 2.5rem;
+    text-align: center;
 }
 
 .wrapper .section .progress-container {
-margin-top: 1rem;
-margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Plus Icon */
@@ -65,4 +87,14 @@ background:
     conic-gradient(from 90deg at var(--b) var(--b),#fff 90deg,#f0f0f0 0) 
     calc(100% + var(--b)/2) calc(100% + var(--b)/2)/
     calc(50%  + var(--b))   calc(50%  + var(--b));
+}
+
+.add-plant-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 60%;
+    background: #757575;
 }

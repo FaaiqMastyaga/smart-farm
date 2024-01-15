@@ -4,16 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const plantContainer = document.getElementById("plant-container");
 
     menuButton.addEventListener("click", activateSideBar);
-    plusCard.addEventListener("click", addCard);
+    plusCard.addEventListener("click", addPlant);
 
     plantContainer.addEventListener("click", (event) => {
     const target = event.target;
     if (target.classList.contains("delete-button") || target.closest(".delete-button")) {
-        deleteCard(target.closest(".card"));
+        deletePlant(target.closest(".card"));
 	} else if (target.classList.contains("card") || target.closest(".card")) {
         activateCard(target.closest(".card"));
     }
     });
+
+    displayCard();
 });
 
 function activateSideBar() {
@@ -23,17 +25,23 @@ function activateSideBar() {
     section.classList.toggle("shrink-page");
 }
 
-function addCard() {
-    const cardContainer = document.getElementById("plant-container");
-    const plantName = prompt("Insert plant: ");
+function addPlant() {
+    const body = document.querySelector("body");
+    
+    const addPlantContainer = document.createElement("div");
+    addPlantContainer.classList.add("add-plant-container");
+    addPlantContainer.innerHTML = `
+        
+    `;
 
-    if (plantName) {
-    const card = createCard(plantName);
-    cardContainer.insertBefore(card, cardContainer.lastElementChild);
-    }
+    body.appendChild(addPlantContainer);
 }
 
-function createCard(plantName) {
+function createCard(plantName, currentDay, remainingDay) {
+    if (!currentDay) {
+        currentDay = 0;
+    }
+
     const card = document.createElement("div");
     card.classList.add("card");
     card.setAttribute("id", "plant-card");
@@ -50,9 +58,18 @@ function createCard(plantName) {
                 <i class="fa fa-trash"></i>
             </div>
         </div>
+
         <div class="card-info">
-            <p>Hari ke 2</p>
+            <div class="current-day">
+                <h4>Hari ke</h4>
+                <p><span>${currentDay} </span> D</p>
+                </div>
+                <div class="harvest-day">
+                <h4>Panen dalam</h4>
+                <p><span>${remainingDay} </span> D</p>
+            </div>
         </div>
+
         <div class="card-image">
 
         </div>
@@ -60,7 +77,7 @@ function createCard(plantName) {
     return card;
 }
 
-function deleteCard(card) {
+function deletePlant(card) {
     const confirmation = confirm("Are you sure you want to delete this?");
 
     if (confirmation) {
@@ -71,8 +88,33 @@ function deleteCard(card) {
 function activateCard(card) {
     const cards = document.querySelectorAll("#plant-card");
     cards.forEach((c) => {
-    c.classList.remove("active-card");
+        c.classList.remove("active-card");
     });
 
     card.classList.toggle("active-card");
+}
+
+async function displayCard() {
+    const action = 'get_plants';
+    
+    const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    
+    if (response.ok) {
+        const cardContainer = document.getElementById("plant-container");
+
+        const plants = await response.json();
+        plants.forEach(plant => {
+            const plantName = plant.nama_tanaman;
+            const currentDay = plant.hari_ke;
+            const remainingDay = plant.masa_panen;
+    
+            const card = createCard(plantName, currentDay, remainingDay);
+            cardContainer.insertBefore(card, cardContainer.lastElementChild);
+        });
+    }
 }

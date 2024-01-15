@@ -149,7 +149,7 @@ body {
   margin-left: 1.5rem;
 }
 
-.wrapper .sidebar.active {
+.wrapper .sidebar .active {
   left: 0;
 }
 
@@ -203,6 +203,10 @@ body {
 .wrapper .section .card-container #plant-card {
   padding: 0.6rem;
   color: #000000;
+}
+
+.wrapper .section .card-container #plant-card.active {
+  background: var(--primary);
 }
 
 .wrapper .section .card-container #plant-card .card-title {

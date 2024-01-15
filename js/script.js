@@ -8,8 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     plantContainer.addEventListener("click", (event) => {
         const target = event.target;
-        if (target.classList.contains("delete-button")) {
+        if (target.classList.contains("delete-button") || target.closest(".delete-button")) {
             deleteCard(target.closest(".card"));
+        } else if (target.classList.contains("card") || target.closest(".card")) {
+            activateCard(target.closest(".card"));
         }
     });
 })
@@ -44,9 +46,9 @@ function createCard(plantName) {
             <div class="title">
                 <h2>${plantName}</h2>
             </div>
-            <a href="#" class="delete-button">
+            <div class="delete-button">
                 <i class="fa fa-trash"></i>
-            </a>
+            </div>
         </div>
         <div class="card-info">
             <p>Hari ke 2</p>
@@ -64,4 +66,12 @@ function deleteCard(card) {
     if (confirmation) {
         card.remove();
     }
+}
+
+function activateCard(card) {
+    const cards = document.querySelectorAll("#plant-card");
+    cards.forEach((c) => {
+        c.classList.remove("active");
+    });
+    card.classList.toggle("active");
 }

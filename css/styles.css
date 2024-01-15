@@ -177,14 +177,14 @@ body {
   overflow: auto;
 }
 
-/* SECTION SHRINKING WHILE SIDEBAR ACTIVE */
+/* Section shrinking while sidebar active */
 .wrapper .section.shrink-page {
   margin-left: 275px;
   width: calc(100vw - 275px);
 }
 
-
 /* Tablet and Mobile Phone*/
+/* Section darkening while sidebar active */
 @media (max-width: 768px) {
   .navbar .account-info #search {
     display: inline;
@@ -233,54 +233,7 @@ body {
   flex-direction: column;
   cursor: pointer;
 }
-
-.wrapper .section .card-container #plant-card {
-  padding: 0.6rem;
-  color: #000000;
-}
-
-.wrapper .section .card-container #plant-card.active-card {
-  background: var(--primary);
-}
-
-.wrapper .section .card-container #plant-card .card-title {
-  display: flex;
-}
-
-.wrapper .section .card-container #plant-card .card-title .checked {
-  position: relative;
-  color: #757575;
-  font-size: 2rem;
-}
-
-.wrapper .section .card-container #plant-card .card-title .title {
-  margin-left: 0.5rem;
-  padding-top: 0.2rem;
-  max-width: 8rem;
-}
-
-.wrapper .section .card-container #plant-card .card-title .delete-button {
-  background: #ff0000;
-  color: #fff;
-  right: 0;
-  margin-left: auto;
-  width: 1.5rem;
-  height: 1.5rem;
-  font-size: 1.3rem;
-  text-align: center;
-  border-radius: 0.3rem;
-}
-
-.wrapper .section .card-container #plus-card {
-  padding-top: 1.75rem;
-  text-align: center;
-}
-
-.wrapper .section .progress-container {
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
-}
-
+  
 .footer {
   height: 3rem;
   position: fixed;
@@ -288,26 +241,4 @@ body {
   left: 0;
   bottom: 0;
   background-color: var(--primary);
-}
-
-/* Plus Icon */
-.plus {
-  --b: 0.4rem; /* the thickness */
-  width: 8rem; /* the size */
-  aspect-ratio: 1;
-  border: 10px solid #f0f0f0; /* the outer space */
-  background:
-    conic-gradient(from 90deg at var(--b) var(--b),#f0f0f0 90deg,#fff 0) 
-    calc(100% + var(--b)/2) calc(100% + var(--b)/2)/
-    calc(50%  + var(--b))   calc(50%  + var(--b));
-  display: inline-block;
-}
-
-.alt {
-  border: none;
-  margin: 10px;
-  background:
-    conic-gradient(from 90deg at var(--b) var(--b),#fff 90deg,#f0f0f0 0) 
-    calc(100% + var(--b)/2) calc(100% + var(--b)/2)/
-    calc(50%  + var(--b))   calc(50%  + var(--b));
 }

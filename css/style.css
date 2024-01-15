@@ -176,9 +176,35 @@ body {
   color: #8c8c8c;
 }
 
-.wrapper .section .plant-container {
+.wrapper .section .card-container {
   margin-top: 1rem;
   margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+.wrapper .section .card-container .card {
+  background: #fff;
+  display: inline-block;
+  color: #adadad;
+  border-radius: 0.6rem;
+  box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
+  -webkit-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
+  -moz-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
+  width: 13rem;
+  height: 13rem;
+  text-align: center;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.wrapper .section .card-container #plus-card {
+  padding-top: 1.75rem;
+}
+
+.wrapper .section .card-container #plant-card {
+  background: #05ed14;
 }
 
 .wrapper .section .progress-container {
@@ -198,4 +224,26 @@ body {
   left: 0;
   bottom: 0;
   background-color: var(--primary);
+}
+
+/* Plus Icon */
+.plus {
+  --b: 0.4rem; /* the thickness */
+  width: 8rem; /* the size */
+  aspect-ratio: 1;
+  border: 10px solid #f0f0f0; /* the outer space */
+  background:
+    conic-gradient(from 90deg at var(--b) var(--b),#f0f0f0 90deg,#fff 0) 
+    calc(100% + var(--b)/2) calc(100% + var(--b)/2)/
+    calc(50%  + var(--b))   calc(50%  + var(--b));
+  display: inline-block;
+}
+
+.alt {
+  border: none;
+  margin: 10px;
+  background:
+    conic-gradient(from 90deg at var(--b) var(--b),#fff 90deg,#f0f0f0 0) 
+    calc(100% + var(--b)/2) calc(100% + var(--b)/2)/
+    calc(50%  + var(--b))   calc(50%  + var(--b));
 }

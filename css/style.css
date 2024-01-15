@@ -172,6 +172,20 @@ body {
   overflow: auto;
 }
 
+.wrapper .section p {
+  color: #8c8c8c;
+}
+
+.wrapper .section .plant-container {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.wrapper .section .progress-container {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 .wrapper .section.shrink {
   margin-left: 275px;
   width: calc(100vw - 275px);

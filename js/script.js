@@ -10,3 +10,5 @@ function activateSideBar() {
     sidebar.classList.toggle('active');
     section.classList.toggle('shrink');
 }
+
+fu

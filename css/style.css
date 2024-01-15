@@ -194,17 +194,49 @@ body {
   -moz-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
   width: 13rem;
   height: 13rem;
-  text-align: center;
   margin-right: 1rem;
+  margin-bottom: 1rem;
+  flex-direction: column;
   cursor: pointer;
+}
+
+.wrapper .section .card-container #plant-card {
+  padding: 0.6rem;
+  color: #000000;
+}
+
+.wrapper .section .card-container #plant-card .card-title {
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+.wrapper .section .card-container #plant-card .card-title .checked {
+  position: relative;
+  color: #757575;
+  font-size: 2rem;
+}
+
+.wrapper .section .card-container #plant-card .card-title .title {
+  margin-left: 0.5rem;
+  padding-top: 0.2rem;
+  max-width: 8rem;
+}
+
+.wrapper .section .card-container #plant-card .card-title .delete-button {
+  background: #ff0000;
+  color: #fff;
+  right: 0;
+  margin-left: auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.3rem;
+  text-align: center;
+  border-radius: 0.3rem;
 }
 
 .wrapper .section .card-container #plus-card {
   padding-top: 1.75rem;
-}
-
-.wrapper .section .card-container #plant-card {
-  background: #05ed14;
+  text-align: center;
 }
 
 .wrapper .section .progress-container {

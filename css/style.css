@@ -94,6 +94,10 @@ body {
   background-color: var(--primary);
 }
 
+.navbar .account-info #search {
+  display: none;
+}
+
 .navbar .account-info a {
   color: #adadad;
   margin: 0 0.5rem;
@@ -125,6 +129,10 @@ body {
   transition: all 0.5s ease;
 }
 
+.wrapper .sidebar.active-page {
+  left: 0;
+}
+
 .wrapper .sidebar ul {
   list-style-type: none;
 }
@@ -149,12 +157,9 @@ body {
   margin-left: 1.5rem;
 }
 
-.wrapper .sidebar.active {
-  left: 0;
-}
 
 .wrapper .sidebar ul li a:hover,
-.wrapper .sidebar ul li a.active {
+.wrapper .sidebar ul li a.active-page {
   color: #fff;
   background: var(--primary);
   border-top-right-radius: 0.5rem;
@@ -170,6 +175,35 @@ body {
   padding-left: 3rem;
   transition: margin-left 0.5s ease, width 1s ease;
   overflow: auto;
+}
+
+/* SECTION SHRINKING WHILE SIDEBAR ACTIVE */
+.wrapper .section.shrink-page {
+  margin-left: 275px;
+  width: calc(100vw - 275px);
+}
+
+
+/* Tablet and Mobile Phone*/
+@media (max-width: 768px) {
+  .navbar .account-info #search {
+    display: inline;
+  }  
+
+  .navbar .search-container {
+    display: none;
+  }
+
+  .wrapper .sidebar.active-page {
+    z-index: 1000;
+  }
+  
+  .wrapper .section.shrink-page {
+    margin-left: 0;
+    width: 100%;
+    z-index: 0;
+    filter: brightness(50%);
+  }
 }
 
 .wrapper .section p {
@@ -205,7 +239,7 @@ body {
   color: #000000;
 }
 
-.wrapper .section .card-container #plant-card.active {
+.wrapper .section .card-container #plant-card.active-card {
   background: var(--primary);
 }
 
@@ -245,11 +279,6 @@ body {
 .wrapper .section .progress-container {
   margin-top: 1rem;
   margin-bottom: 1.5rem;
-}
-
-.wrapper .section.shrink {
-  margin-left: 275px;
-  width: calc(100vw - 275px);
 }
 
 .footer {

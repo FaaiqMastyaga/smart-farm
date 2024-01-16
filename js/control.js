@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function activateSideBar() {
     const sidebar = document.querySelector(".sidebar");
     const section = document.querySelector(".section");
-    sidebar.classList.toggle("active-page");
-    section.classList.toggle("shrink-page");
+    sidebar.classList.toggle("active");
+    section.classList.toggle("shrink");
 }
 
 // function addCard() {

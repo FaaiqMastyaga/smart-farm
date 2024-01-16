@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const menuButton = document.getElementById("menu");
     const plusCard = document.getElementById("plus-card");
     const plantContainer = document.getElementById("plant-container");
 
-    menuButton.addEventListener("click", activateSideBar);
     plusCard.addEventListener("click", addPlant);
 
     plantContainer.addEventListener("click", (event) => {
@@ -18,24 +16,86 @@ document.addEventListener("DOMContentLoaded", () => {
     displayCard();
 });
 
+function closeAddPlantContainer() {
+    const addPlantContainer = document.querySelector(".add-plant-container");
+    const content = document.querySelector(".wrapper");
+    addPlantContainer.remove();
+    content.classList.remove("dark")
+}
+
 function activateSideBar() {
     const sidebar = document.querySelector(".sidebar");
     const section = document.querySelector(".section");
-    sidebar.classList.toggle("active-page");
-    section.classList.toggle("shrink-page");
+    sidebar.classList.toggle("active");
+    section.classList.toggle("shrink");
 }
 
 function addPlant() {
     const body = document.querySelector("body");
-    
+
     const addPlantContainer = document.createElement("div");
     addPlantContainer.classList.add("add-plant-container");
-    addPlantContainer.innerHTML = `
-        
-    `;
+    
+    const formContainer = document.createElement("div");
+    formContainer.classList.add("form-container");
 
+    const scheduleContainer = document.createElement("div");
+    scheduleContainer.classList.add("schedule-container");
+    
+
+    const formInput = document.createElement("div");
+    formInput.classList.add("form-input");
+    formInput.innerHTML = `
+        <label for="plant-name">Nama Tanaman:</label>
+        <input id="plant-name" type="text"> 
+        <br>
+        <label for="target-day">Target Panen:</label>
+        <input id="target-day" type="number"> 
+        <br>
+        <label for="schedule">Jadwal: </label>
+        <input 
+            id="schedule"
+            type="file" 
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
+        > 
+        <br>
+        <button id="submit-button">Submit</button>  
+        `;
+        
+        const formSelect = document.createElement("div");
+    formSelect.classList.add("form-select");
+    formSelect.innerHTML = `
+        <label for="plan-list">Nama Tanaman:</label>
+        <input list="plant-list">
+        <datalist id="plant-list">
+            <option value="Bayam">
+            <option value="Kangkung">
+            <option value="Jagung">
+            <option value="Singkong">
+            <option value="Cabai">
+            <option value="Sawi">
+        </datalist>
+        <br>
+        <button id="submit-button">Submit</button>  
+            `;
+            
+    const scheduleDisplay = document.createElement("div");
+    scheduleDisplay.classList.add("schedule-display");
+    
+    formContainer.appendChild(formInput);
+    formContainer.appendChild(formSelect);
+    addPlantContainer.appendChild(formContainer);
+    addPlantContainer.appendChild(scheduleDisplay);
     body.appendChild(addPlantContainer);
+
+    const content = document.querySelector(".wrapper");
+    content.classList.add("dark");
+
+    const submitButton = document.getElementById("submit-button");
+    submitButton.addEventListener("click", closeAddPlantContainer);
+    
 }
+
 
 function createCard(plantName, currentDay, remainingDay) {
     if (!currentDay) {
@@ -54,9 +114,9 @@ function createCard(plantName, currentDay, remainingDay) {
             <div class="title">
                 <h2>${plantName}</h2>
             </div>
-            <div class="delete-button">
+            <button class="delete-button">
                 <i class="fa fa-trash"></i>
-            </div>
+            </button>
         </div>
 
         <div class="card-info">
@@ -81,7 +141,7 @@ function deletePlant(card) {
     const confirmation = confirm("Are you sure you want to delete this?");
 
     if (confirmation) {
-    card.remove();
+        card.remove();
     }
 }
 
@@ -91,7 +151,7 @@ function activateCard(card) {
         c.classList.remove("active-card");
     });
 
-    card.classList.toggle("active-card");
+    card.classList.add("active-card");
 }
 
 async function displayCard() {
@@ -110,9 +170,9 @@ async function displayCard() {
         const plants = await response.json();
         plants.forEach(plant => {
             const plantName = plant.nama_tanaman;
-            const currentDay = plant.hari_ke;
-            const remainingDay = plant.masa_panen;
-    
+            const currentDay = plant.hari;
+            const remainingDay = plant.panen;
+
             const card = createCard(plantName, currentDay, remainingDay);
             cardContainer.insertBefore(card, cardContainer.lastElementChild);
         });

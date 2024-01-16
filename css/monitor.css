@@ -33,6 +33,7 @@ height: 1.5rem;
 font-size: 1.3rem;
 text-align: center;
 border-radius: 0.3rem;
+cursor: pointer;
 }
 
 .wrapper .section .card-container #plant-card .card-info {
@@ -95,6 +96,44 @@ background:
     left: 50%;
     transform: translate(-50%, -50%);
     width: 70%;
+    border-radius: 0.3rem;
+    z-index: 99999999;
     height: 60%;
-    background: #757575;
+    background: #fff;
+    display: flex;
+    box-shadow: 0px 0px 18px 11px rgba(0,0,0,0.28);
+    -webkit-box-shadow: 0px 0px 18px 11px rgba(0,0,0,0.28);
+    -moz-box-shadow: 0px 0px 18px 11px rgba(0,0,0,0.28);
+    animation: 0.75s appear;
+}
+
+@keyframes appear {
+    from {
+        top: 51%;
+        opacity: 0;
+    }
+    to {
+        top: 50%;
+        opacity: 1;
+    }
+}
+
+.add-plant-container .form-container {
+    display: grid;
+}
+
+.add-plant-container .form-container .form-input {
+    display: none;
+}
+
+.add-plant-container .form-container .form-input.active {
+    display: contents;
+}
+
+/* .add-plant-container .form-container .form-select {
+    display: none;
+} */
+
+.add-plant-container .form-container .form-select.active {
+    display: none;
 }

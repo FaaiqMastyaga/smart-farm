@@ -18,31 +18,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function closeAddPlantContainer() {
     const addPlantContainer = document.querySelector(".add-plant-container");
-    const content = document.querySelector(".wrapper");
     addPlantContainer.remove();
-    content.classList.remove("dark")
+    
+    const barrier = document.querySelector(".barrier");
+    barrier.remove();
+    
+    const content = document.querySelector(".wrapper");
+    content.classList.remove("dark");
 }
 
-function activateSideBar() {
-    const sidebar = document.querySelector(".sidebar");
-    const section = document.querySelector(".section");
-    sidebar.classList.toggle("active");
-    section.classList.toggle("shrink");
+function createBarrier() {
+    const body = document.querySelector("body");
+    const barrier = document.createElement("div");
+    barrier.classList.add("barrier");
+
+    const content = document.querySelector(".wrapper");
+    content.classList.add("dark");
+
+    body.appendChild(barrier);
 }
 
 function addPlant() {
     const body = document.querySelector("body");
-
+    
     const addPlantContainer = document.createElement("div");
     addPlantContainer.classList.add("add-plant-container");
     
     const formContainer = document.createElement("div");
     formContainer.classList.add("form-container");
-
+    
     const scheduleContainer = document.createElement("div");
     scheduleContainer.classList.add("schedule-container");
     
-
     const formInput = document.createElement("div");
     formInput.classList.add("form-input");
     formInput.innerHTML = `
@@ -54,15 +61,14 @@ function addPlant() {
         <br>
         <label for="schedule">Jadwal: </label>
         <input 
-            id="schedule"
-            type="file" 
+        id="schedule"
+        type="file" 
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
         > 
         <br>
-        <button id="submit-button">Submit</button>  
-        `;
-        
-        const formSelect = document.createElement("div");
+    `;
+            
+    const formSelect = document.createElement("div");
     formSelect.classList.add("form-select");
     formSelect.innerHTML = `
         <label for="plan-list">Nama Tanaman:</label>
@@ -76,26 +82,25 @@ function addPlant() {
             <option value="Sawi">
         </datalist>
         <br>
-        <button id="submit-button">Submit</button>  
-            `;
+    `;
             
     const scheduleDisplay = document.createElement("div");
     scheduleDisplay.classList.add("schedule-display");
+
+    const cancelButton = document.createElement("button");
+    cancelButton.setAttribute("id", "cancel-button");
+    cancelButton.textContent = "Cancel";
     
     formContainer.appendChild(formInput);
     formContainer.appendChild(formSelect);
+    formContainer.appendChild(cancelButton); 
     addPlantContainer.appendChild(formContainer);
     addPlantContainer.appendChild(scheduleDisplay);
     body.appendChild(addPlantContainer);
+    createBarrier();
 
-    const content = document.querySelector(".wrapper");
-    content.classList.add("dark");
-
-    const submitButton = document.getElementById("submit-button");
-    submitButton.addEventListener("click", closeAddPlantContainer);
-    
+    cancelButton.addEventListener("click", closeAddPlantContainer);
 }
-
 
 function createCard(plantName, currentDay, remainingDay) {
     if (!currentDay) {
@@ -105,7 +110,7 @@ function createCard(plantName, currentDay, remainingDay) {
     const card = document.createElement("div");
     card.classList.add("card");
     card.setAttribute("id", "plant-card");
-
+    
     card.innerHTML = `
         <div class="card-title">
             <div class="checked">
@@ -137,21 +142,58 @@ function createCard(plantName, currentDay, remainingDay) {
     return card;
 }
 
-function deletePlant(card) {
-    const confirmation = confirm("Are you sure you want to delete this?");
+function closeDeletePlantContainer() {
+    const addPlantContainer = document.querySelector(".delete-plant-container");
+    addPlantContainer.remove();
 
-    if (confirmation) {
+    const barrier = document.querySelector(".barrier");
+    barrier.remove();
+    
+    const content = document.querySelector(".wrapper");
+    content.classList.remove("dark");
+}
+
+function deletePlant(card) {
+    const body = document.querySelector("body");
+
+    const deletePlantContainer = document.createElement("div");
+    deletePlantContainer.classList.add("delete-plant-container");
+    deletePlantContainer.textContent = "Delete";
+    deletePlantContainer.innerHTML = `
+        <div class="text-content">
+            <h2>Are you sure?</h2>
+            <br>
+            <p>This change cannot be undone. All values associated with this field will be lost.</p>
+        </div>
+        <div class="button-container">
+            <button class="button" id="delete-button">Delete</button>
+            <button class="button" id="cancel-button">Cancel</button>
+        </div>
+    `;
+
+    body.appendChild(deletePlantContainer);
+    createBarrier();
+
+    const deleteButton = document.getElementById("delete-button");
+    const cancelButton = document.getElementById("cancel-button");
+
+    deleteButton.addEventListener("click", () => {
         card.remove();
-    }
+        closeDeletePlantContainer();
+    });
+    cancelButton.addEventListener("click", closeDeletePlantContainer)
 }
 
 function activateCard(card) {
-    const cards = document.querySelectorAll("#plant-card");
-    cards.forEach((c) => {
-        c.classList.remove("active-card");
-    });
+    const id = card.getAttribute("id");
+    if (id === "plant-card") {
+        const cards = document.querySelectorAll("#plant-card");
+        cards.forEach((c) => {
+            c.classList.remove("active");
+        });
 
-    card.classList.add("active-card");
+        card.classList.add("active");
+    }
 }
 
 async function displayCard() {

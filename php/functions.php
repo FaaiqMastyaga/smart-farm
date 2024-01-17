@@ -13,4 +13,18 @@
         echo json_encode($plants);
         $db->close();
     }
+
+    function deletePlant($plantName) {
+        global $db;
+
+        $plantName = $db->real_escape_string($plantName);
+        $sql = $db->query("DELETE FROM tanaman WHERE nama_tanaman = '$plantName'");
+
+        if ($sql) {
+            getPlants();
+        } else {
+            echo "Error". $db->error;
+        }
+        $db->close();
+    }
 ?>

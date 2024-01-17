@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     });
 
-    displayCard();
+    displayPlant();
 });
 
 function addPlant() {
@@ -46,10 +46,8 @@ function addPlant() {
     
     // exit add plant box
     cancelButton.addEventListener("click", () => {
-        addPlantBox.classList.remove("active");
         cancelButton.remove();
-        barrier.classList.remove("active");
-        content.classList.remove("dark");
+        closeBox(addPlantBox);
     });
 }
 
@@ -102,17 +100,34 @@ function deletePlant(card) {
     const deleteButton = document.getElementById("delete-button");
     const cancelButton = document.getElementById("cancel-button");
 
-    deleteButton.addEventListener("click", () => {
-        card.remove();
-        deletePlantBox.classList.remove("active");
-        barrier.classList.remove("active");
-        content.classList.remove("dark");
+    deleteButton.addEventListener("click", async () => {
+        const action = "delete_plant";
+        const plantName = card.querySelector("h2").innerText;
+        console.log(plantName);
+
+        const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                action: action,
+                plantName: plantName,
+            }),
+        });
+
+        if (response.ok) {
+            displayPlant();
+            console.log("Successfully delete plant.");
+        } else {
+            console.error("Failed to delete plant.");
+        }
+
+        closeBox(deletePlantBox);
     });
     
     cancelButton.addEventListener("click", () => {
-        deletePlantBox.classList.remove("active");
-        barrier.classList.remove("active");
-        content.classList.remove("dark");
+        closeBox(deletePlantBox)
     });
 }
 
@@ -128,7 +143,7 @@ function activateCard(card) {
     }
 }
 
-async function displayCard() {
+async function displayPlant() {
     const action = 'get_plants';
     
     const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
@@ -141,6 +156,11 @@ async function displayCard() {
     if (response.ok) {
         const cardContainer = document.getElementById("plant-container");
 
+        const cards = document.querySelectorAll("#plant-card");
+        cards.forEach((c) => {
+            c.remove();
+        });
+
         const plants = await response.json();
         plants.forEach(plant => {
             const plantName = plant.nama_tanaman;
@@ -151,4 +171,14 @@ async function displayCard() {
             cardContainer.insertBefore(card, cardContainer.lastElementChild);
         });
     }
+}
+
+function closeBox(box) {
+    const confirmationBox = box;
+    const barrier = document.querySelector(".barrier");
+    const content = document.querySelector(".wrapper")
+
+    confirmationBox.classList.remove("active");
+    barrier.classList.remove("active");
+    content.classList.remove("dark");
 }

@@ -13,4 +13,20 @@
             }
         }
     }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $data = file_get_contents("php://input");
+
+        if ($data) {
+            $data = json_decode($data, true);
+
+            if (($data !== null) && (isset($data["action"]))) {
+                $action = $data["action"];
+                if ($action == "delete_plant") {
+                    $plantName = $data["plantName"];
+                    deletePlant($plantName);
+                }
+            }
+        }
+    }
 ?>

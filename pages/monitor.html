@@ -17,7 +17,8 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/styles.css" />
-    <link rel="stylesheet" href="../css/monitor.css" />
+    <link rel="stylesheet" href="../css/monitor/monitor.css" />
+    <link rel="stylesheet" href="../css/monitor/other.css" />
   </head>
 
   <body>
@@ -112,21 +113,24 @@
         <!-- Sidebar end -->
 
         <div class="section">
-            <h2>My Plants</h2>
-            <p>Look at the target when it should be harvested.</p>
+            <h2 id="plant-text">My Plants</h2>
+            <p id="plant-text">Look at the target when it should be harvested.</p>
             <div id="plant-container" class="card-container">
-                <div id="plus-card" class="card">
+                <div id="plus-card" class="plant-card">
                     <i class="plus alt"></i>
                 </div>
             </div>
-            <h2>Progress</h2>
-            <p>Development drom day 0 to N.</p>
-            <div id="progress-container" class="card-container">bla</div>
+            <h2 id="progress-text">Progress</h2>
+            <p id="progress-text">Development drom day 0 to N.</p>
+            <div id="progress-container" class="card-container">
+                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+            </div>
         </div>
     </div>
 
     <footer class="footer"></footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="../js/script.js"></script>
     <script src="../js/monitor.js"></script>
   </body>

@@ -13,7 +13,7 @@
             }
         }
     }
-
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = file_get_contents("php://input");
 
@@ -23,8 +23,12 @@
             if (($data !== null) && (isset($data["action"]))) {
                 $action = $data["action"];
                 if ($action == "delete_plant") {
-                    $plantName = $data["plantName"];
-                    deletePlant($plantName);
+                    $plantId = $data["plantId"];
+                    deletePlant($plantId);
+                }
+                else if ($action == "get_plant_progress") {
+                    $plantId = $data["plantId"];
+                    getPlantProgress($plantId);
                 }
             }
         }

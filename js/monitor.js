@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     plantContainer.addEventListener("click", (event) => {
     const target = event.target;
     if (target.classList.contains("delete-button") || target.closest(".delete-button")) {
-        deletePlant(target.closest(".card"));
-	} else if (target.classList.contains("card") || target.closest(".card")) {
-        activateCard(target.closest(".card"));
+        deletePlant(target.closest(".plant-card"));
+	} else if (target.classList.contains("plant-card") || target.closest(".plant-card")) {
+        displayProgress(target.closest(".plant-card"));
     }
     });
 
@@ -51,9 +51,84 @@ function addPlant() {
     });
 }
 
-function createCard(plantName, currentDay, remainingDay) {
+function deletePlant(card) {
+    const deletePlantBox = document.getElementById("delete-plant-box");
+    deletePlantBox.classList.add("active");
+
+    const barrier = document.querySelector(".barrier");
+    barrier.classList.add("active");
+    
+    const content = document.querySelector(".wrapper");
+    content.classList.add("dark");
+
+    const deleteButton = document.getElementById("delete-button");
+    const cancelButton = document.getElementById("cancel-button");
+
+    deleteButton.addEventListener("click", async () => {
+        const action = "delete_plant";
+        const plantId = card.querySelector("h2").getAttribute("id");
+        console.log(plantId);
+
+        const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                action: action,
+                plantId: plantId,
+            }),
+        });
+
+        if (response.ok) {
+            displayPlant();
+            console.log("Successfully delete plant.");
+        } else {
+            console.error("Failed to delete plant.");
+        }
+
+        closeBox(deletePlantBox);
+    });
+    
+    cancelButton.addEventListener("click", () => {
+        closeBox(deletePlantBox)
+    });
+}
+
+async function displayPlant() {
+    const action = 'get_plants';
+    
+    const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    
+    if (response.ok) {
+        const cardContainer = document.getElementById("plant-container");
+
+        const cards = document.querySelectorAll("#plant-card");
+        cards.forEach((c) => {
+            c.remove();
+        });
+
+        const plants = await response.json();
+        plants.forEach(plant => {
+            const plantId = plant.tanaman_id;
+            const plantName = plant.nama_tanaman;
+            const currentDay = plant.hari;
+            const remainingDay = plant.masa_panen - currentDay;
+
+            const card = createCard(plantId, plantName, currentDay, remainingDay);
+            cardContainer.insertBefore(card, cardContainer.lastElementChild);
+        });
+    }
+}
+
+function createCard(plantId, plantName, currentDay, remainingDay) {
     const card = document.createElement("div");
-    card.classList.add("card");
+    card.classList.add("plant-card");
     card.setAttribute("id", "plant-card");
     
     card.innerHTML = `
@@ -62,7 +137,7 @@ function createCard(plantName, currentDay, remainingDay) {
                 <i class="fa fa-circle"></i>
             </div>
             <div class="title">
-                <h2>${plantName}</h2>
+                <h2 id=${plantId}>${plantName}</h2>
             </div>
             <button class="delete-button">
                 <i class="fa fa-trash"></i>
@@ -87,51 +162,17 @@ function createCard(plantName, currentDay, remainingDay) {
     return card;
 }
 
-function deletePlant(card) {
-    const deletePlantBox = document.getElementById("delete-plant-box");
-    deletePlantBox.classList.add("active");
-
+function closeBox(box) {
+    const confirmationBox = box;
     const barrier = document.querySelector(".barrier");
-    barrier.classList.add("active");
-    
-    const content = document.querySelector(".wrapper");
-    content.classList.add("dark");
+    const content = document.querySelector(".wrapper")
 
-    const deleteButton = document.getElementById("delete-button");
-    const cancelButton = document.getElementById("cancel-button");
-
-    deleteButton.addEventListener("click", async () => {
-        const action = "delete_plant";
-        const plantName = card.querySelector("h2").innerText;
-        console.log(plantName);
-
-        const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                action: action,
-                plantName: plantName,
-            }),
-        });
-
-        if (response.ok) {
-            displayPlant();
-            console.log("Successfully delete plant.");
-        } else {
-            console.error("Failed to delete plant.");
-        }
-
-        closeBox(deletePlantBox);
-    });
-    
-    cancelButton.addEventListener("click", () => {
-        closeBox(deletePlantBox)
-    });
+    confirmationBox.classList.remove("active");
+    barrier.classList.remove("active");
+    content.classList.remove("dark");
 }
-
-function activateCard(card) {
+    
+async function displayProgress(card) {
     const id = card.getAttribute("id");
     if (id === "plant-card") {
         const cards = document.querySelectorAll("#plant-card");
@@ -141,46 +182,62 @@ function activateCard(card) {
         });
 
         const checked = card.querySelector(".checked");
-        checked.classList.add("active")
-    }
-}
+        checked.classList.add("active");
 
-async function displayPlant() {
-    const action = 'get_plants';
-    
-    const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-    
-    if (response.ok) {
-        const cardContainer = document.getElementById("plant-container");
+        const progressText = document.getElementById("progress-text");
+        progressText.classList.add("active");
 
-        const cards = document.querySelectorAll("#plant-card");
-        cards.forEach((c) => {
-            c.remove();
+        const progressContainer = document.getElementById("progress-container");
+        progressContainer.classList.add("active");
+
+        const action = "get_plant_progress";
+        const plantId = card.querySelector("h2").getAttribute("id");
+        
+        const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                action: action,
+                plantId: plantId,
+            }),
         });
 
-        const plants = await response.json();
-        plants.forEach(plant => {
-            const plantName = plant.nama_tanaman;
-            const currentDay = plant.hari;
-            const remainingDay = plant.panen;
+        if (response.ok) {
+            const plantProgress = await response.json();
 
-            const card = createCard(plantName, currentDay, remainingDay);
-            cardContainer.insertBefore(card, cardContainer.lastElementChild);
-        });
+            let weeks = [];
+            let pupuk_a = [];
+            let pupuk_b = [];
+            let pupuk_c = [];
+
+            plantProgress.forEach(progress => {
+                weeks.push(parseInt(progress.pekan));
+                pupuk_a.push(parseInt(progress.pupuk_a));
+                pupuk_b.push(parseInt(progress.pupuk_b));
+                pupuk_c.push(parseInt(progress.pupuk_c));
+            });
+
+            new Chart("myChart", {
+                type: "line",
+                data: {
+                    labels: weeks,
+                    datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: pupuk_a
+                    }]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                    yAxes: [{ticks: {min: 0, max:200}}],
+                    }
+                }
+            });
+        }
     }
-}
-
-function closeBox(box) {
-    const confirmationBox = box;
-    const barrier = document.querySelector(".barrier");
-    const content = document.querySelector(".wrapper")
-
-    confirmationBox.classList.remove("active");
-    barrier.classList.remove("active");
-    content.classList.remove("dark");
 }

@@ -1,0 +1,121 @@
+.barrier {
+    display: none;
+}
+
+.barrier.active {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    opacity: 0;
+}
+
+.confirmation-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 18px 11px rgba(0,0,0,0.28);
+    -webkit-box-shadow: 0px 0px 18px 11px rgba(0,0,0,0.28);
+    -moz-box-shadow: 0px 0px 18px 11px rgba(0,0,0,0.28);
+    border-radius: 0.7rem;
+    background: #fff;
+    animation: 0.75s appear;
+    z-index: 99999;
+}
+
+@keyframes appear {
+    from {
+        top: 51%;
+        opacity: 0;
+    }
+    to {
+        top: 50%;
+        opacity: 1;
+    }
+}
+
+#add-plant-box {
+    display: none;
+}
+
+#add-plant-box.active {
+    border-radius: 0.3rem;
+    width: 70%;
+    height: 60%;
+    display: flex;
+}
+
+#add-plant-box .form-container {
+    display: grid;
+}
+
+#add-plant-box .form-container .form-input {
+    display: none;
+}
+
+#add-plant-box .form-container .form-input.active {
+    display: contents;
+} 
+
+#add-plant-box .form-container .form-select {
+    display: none;
+}
+
+#add-plant-box .form-container .form-select.active {
+    display: none;
+}
+
+#delete-plant-box {
+    display: none;
+}
+
+#delete-plant-box.active {
+    width: 25rem;
+    display: grid;
+}
+
+#delete-plant-box .text-content {
+    margin: 2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+#delete-plant-box .text-content p {
+    color: #adadad;
+}
+
+#delete-plant-box .button-container {
+    margin: 1.5rem;
+    margin-top: 0.5rem;
+    justify-content: center;
+    display: grid;
+}
+
+#delete-plant-box .button-container .button {
+    margin: 0.5rem;
+    width: 22rem;
+    height: 2rem;
+    border-radius: 0.3rem;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+#delete-plant-box .button-container #cancel-button {
+    background-color: #fff;
+    border: 1px solid;
+    border-color: #adadad;
+    color: #000000;
+}
+
+#delete-plant-box .button-container #delete-button {
+    background-color: #cf1e1e;
+    border: 1px solid;
+    border-color: #cf1e1e;
+    color: #fff;
+}

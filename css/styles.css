@@ -223,32 +223,8 @@ body {
 
 .wrapper .section p {
   color: #8c8c8c;
-}
+}  
 
-.wrapper .section .card-container {
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: start;
-}
-
-.wrapper .section .card-container .card {
-  background: #fff;
-  display: inline-block;
-  color: #adadad;
-  border-radius: 0.6rem;
-  box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
-  -webkit-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
-  -moz-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
-  width: 15rem;
-  height: 15rem;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-  flex-direction: column;
-  cursor: pointer;
-}
-  
 .footer {
   height: 3rem;
   position: fixed;

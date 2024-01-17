@@ -7,21 +7,33 @@
         $sql = $db->query("SELECT * FROM tanaman");
         $plants = array();
 
-        while( $row = $sql->fetch_assoc() ) {
+        while($row = $sql->fetch_assoc()) {
             $plants[] = $row;
         }
         echo json_encode($plants);
         $db->close();
     }
+    
+        function getPlantProgress($plantId) {
+            global $db;
+    
+            $sql = $db->query("SELECT * FROM progress WHERE tanaman_id = $plantId");
+            $plantProgress = array();
+            
+            while($row = $sql->fetch_assoc()) {
+                $plantProgress[] = $row;
+            }
+            echo json_encode($plantProgress);
+            $db->close();
+        }
 
-    function deletePlant($plantName) {
+    function deletePlant($plantId) {
         global $db;
 
-        $plantName = $db->real_escape_string($plantName);
-        $sql = $db->query("DELETE FROM tanaman WHERE nama_tanaman = '$plantName'");
+        $sql = $db->query("DELETE FROM tanaman WHERE tanaman_id = $plantId");
 
         if ($sql) {
-            getPlants();
+            echo "Successfully delete plant.";
         } else {
             echo "Error". $db->error;
         }

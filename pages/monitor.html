@@ -21,6 +21,57 @@
   </head>
 
   <body>
+    <div class="barrier"></div>
+
+    <div class="confirmation-box" id="add-plant-box">
+        <div class="form-container" id="form-input">
+            <label for="plant-name">Nama Tanaman:</label>
+            <input id="plant-name" type="text"> 
+            <br>
+            <label for="target-day">Target Panen:</label>
+            <input id="target-day" type="number"> 
+            <br>
+            <label for="schedule">Jadwal: </label>
+            <input 
+            id="schedule"
+            type="file" 
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
+            > 
+            <br>
+        </div>
+
+        <div class="form-container" id="form-select">
+            <label for="plan-list">Nama Tanaman:</label>
+            <input list="plant-list">
+            <datalist id="plant-list">
+                <option value="Bayam">
+                <option value="Kangkung">
+                <option value="Jagung">
+                <option value="Singkong">
+                <option value="Cabai">
+                <option value="Sawi">
+            </datalist>
+            <br>
+        </div>
+
+        <div class="schedule-container">
+
+        </div>
+    </div>
+
+    <div class="confirmation-box" id="delete-plant-box">
+        <div class="text-content">
+            <h2>Are you sure?</h2>
+            <br>
+            <p>This change cannot be undone. All values associated with this field will be lost.</p>
+        </div>
+        <div class="button-container">
+            <button class="button" id="delete-button">Delete</button>
+            <button class="button" id="cancel-button">Cancel</button>
+        </div>
+    </div>
+
+
     <!-- Navbar start -->
     <nav class="navbar">
         <div class="navbar-main">

@@ -136,10 +136,12 @@ function activateCard(card) {
     if (id === "plant-card") {
         const cards = document.querySelectorAll("#plant-card");
         cards.forEach((c) => {
-            c.classList.remove("active");
+            const checked = c.querySelector(".checked");
+            checked.classList.remove("active");
         });
 
-        card.classList.add("active");
+        const checked = card.querySelector(".checked");
+        checked.classList.add("active")
     }
 }
 

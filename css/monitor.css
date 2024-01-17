@@ -3,18 +3,22 @@ padding: 0.6rem;
 color: #000000;
 }
 
-.wrapper .section .card-container #plant-card.active {
+/* .wrapper .section .card-container #plant-card.active {
 background: var(--primary);
-}
+} */
 
 .wrapper .section .card-container #plant-card .card-title {
 display: flex;
 }
 
 .wrapper .section .card-container #plant-card .card-title .checked {
-position: relative;
-color: #757575;
-font-size: 2rem;
+    position: relative;
+    color: #757575;
+    font-size: 2rem;
+}
+
+.wrapper .section .card-container #plant-card .card-title .checked.active {
+    color: #5bd76b;
 }
 
 .wrapper .section .card-container #plant-card .card-title .title {

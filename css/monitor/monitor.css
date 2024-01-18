@@ -14,8 +14,8 @@
     box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
     -webkit-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
     -moz-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
-    width: 15rem;
-    height: 15rem;
+    width: 16rem;
+    height: 16rem;
     margin-right: 1rem;
     margin-bottom: 1rem;
     flex-direction: column;
@@ -78,8 +78,23 @@
 }
 
 .wrapper .section #plant-card .card-info span {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
+}
+
+.wrapper .section #plant-card .card-chart {
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+
+.wrapper .section #plant-card .card-chart.active {
+    background: #5bd76b;
+}
+
+.wrapper .section #plant-container .card .canvas {
+    height: 100%;
+    width: 100%;
 }
 
 .wrapper .section #plus-card {
@@ -117,6 +132,10 @@
     display: grid;
 }
 
+.wrapper .section #progress-container {
+    display: none;
+}
+
 .wrapper .section #progress-container.active {
     display: flex;
 }
@@ -138,10 +157,6 @@
     cursor: pointer;
 }
 
-.wrapper .section #plant-container .card .canvas {
-    height: 100%;
-    width: 100%;
-}
 .wrapper .section #progress-container .card .canvas {
     height: 100%;
     width: 100%;

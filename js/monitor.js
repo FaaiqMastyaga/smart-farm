@@ -67,9 +67,10 @@ function deletePlant(card) {
     deleteButton.addEventListener("click", async () => {
         const action = "delete_plant";
         const plantId = card.querySelector("h2").getAttribute("id");
-        console.log(plantId);
+        const cardChart = card.querySelector(".card-chart");
+        cardChart.innerHTML = "";
 
-        const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
+        const response = await fetch(`http://localhost/smart-farm/php/actions.php`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -98,7 +99,7 @@ function deletePlant(card) {
 async function displayPlant() {
     const action = 'get_plants';
     
-    const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
+    let response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -107,9 +108,16 @@ async function displayPlant() {
     
     if (response.ok) {
         emptyContainer("plant-card");
+        const progressContainer = document.getElementById("progress-container");
+        progressContainer.classList.remove("active");
+        const progressText = document.querySelectorAll(".progress-text");
+        progressText.forEach((t) => {
+            t.classList.remove("active");
+        });
+    
         const cardContainer = document.getElementById("plant-container");
         const plants = await response.json();
-        plants.forEach(plant => {
+        plants.forEach(async plant => {
             const plantId = plant.tanaman_id;
             const plantName = plant.nama_tanaman;
             const currentDay = plant.hari;
@@ -117,6 +125,27 @@ async function displayPlant() {
 
             const card = createCard(plantId, plantName, currentDay, remainingDay);
             cardContainer.insertBefore(card, cardContainer.lastElementChild);
+
+            const action = "get_plant_progress";
+            response = await fetch(`http://localhost/smart-farm/php/actions.php`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    action: action,
+                    plantId: plantId,
+                }),
+            });    
+            
+            const chartContainer = card.querySelector(".card-chart");
+            chartContainer.innerHTML = "";
+            if (response.ok) {
+    
+                const plantProgress = await response.json();
+
+                createChart(plantProgress, chartContainer, `progress-chart-${plantId}`);
+            }
         });
     }
 }
@@ -162,10 +191,16 @@ async function displayProgress(card) {
         cards.forEach((c) => {
             const checked = c.querySelector(".checked");
             checked.classList.remove("active");
+
+            const cardChart = c.querySelector(".card-chart");
+            cardChart.classList.remove("active");
         });
 
         const checked = card.querySelector(".checked");
         checked.classList.add("active");
+
+        const cardChart = card.querySelector(".card-chart");
+        cardChart.classList.add("active");
 
         const progressText = document.querySelectorAll(".progress-text");
         progressText.forEach((text) => {
@@ -178,7 +213,7 @@ async function displayProgress(card) {
         const action = "get_plant_progress";
         const plantId = card.querySelector("h2").getAttribute("id");
         
-        const response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
+        const response = await fetch(`http://localhost/smart-farm/php/actions.php`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -190,51 +225,57 @@ async function displayProgress(card) {
         });
 
         if (response.ok) {
-            emptyContainer("progress-card")
+            emptyContainer("progress-card");
+            
             const plantProgress = await response.json();
 
-            let weeks = [];
-            let pupuk_a = [];
-            let pupuk_b = [];
-            let pupuk_c = [];
-
-            plantProgress.forEach(progress => {
-                weeks.push(parseInt(progress.pekan));
-                pupuk_a.push(parseInt(progress.pupuk_a));
-                pupuk_b.push(parseInt(progress.pupuk_b));
-                pupuk_c.push(parseInt(progress.pupuk_c));
-            });
-
-            const canvas = document.createElement("canvas");
-            canvas.setAttribute("id", "progress-chart");
-            
-            const card = document.createElement("div");
-            card.classList.add("card");
-            card.setAttribute("id", "progress-card");
-            card.appendChild(canvas);
+            const progressCard = document.createElement("div");
+            progressCard.classList.add("card");
+            progressCard.setAttribute("id", "progress-card");
             
             const progressContainer = document.getElementById("progress-container");
-            progressContainer.appendChild(card);
+            progressContainer.appendChild(progressCard);
 
-            let progressChart = new Chart("progress-chart", {
-            type: "line",
-                data: {
-                    labels: weeks,
-                    datasets: [{
-                    fill: false,
-                    tension: 0,
-                    backgroundColor: "rgba(255, 0, 90, 1)",
-                    borderColor: "rgba(255, 0, 90, 1)",
-                    data: pupuk_a
-                    }]
-                },
-                options: {
-                    legend: {display: false},
-                    scales: {
-                        yAxes: [{ticks: {min: 0, max:100}}],
-                    }
-                }
-            });
+            createChart(plantProgress, progressCard, "progress-chart")
         }
     }
+}
+
+function createChart(plantProgress, container, id) {
+    let weeks = [];
+    let pupuk_a = [];
+    let pupuk_b = [];
+    let pupuk_c = [];
+
+    plantProgress.forEach((progress) => {
+        weeks.push(parseInt(progress.pekan));
+        pupuk_a.push(parseInt(progress.pupuk_a));
+        pupuk_b.push(parseInt(progress.pupuk_b));
+        pupuk_c.push(parseInt(progress.pupuk_c));
+    });
+
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("id", id);
+
+    container.appendChild(canvas);
+
+    new Chart(id, {
+        type: "line",
+            data: {
+                labels: weeks,
+                datasets: [{
+                fill: false,
+                tension: 0,
+                backgroundColor: "rgba(255, 0, 90, 1)",
+                borderColor: "rgba(255, 0, 90, 1)",
+                data: pupuk_a
+                }]
+            },
+            options: {
+                legend: {display: false},
+                scales: {
+                    yAxes: [{ticks: {min: 0, max:100}}],
+                }
+            }
+        });
 }

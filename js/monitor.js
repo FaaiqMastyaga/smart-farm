@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     plantContainer.addEventListener("click", (event) => {
     const target = event.target;
     if (target.classList.contains("delete-button") || target.closest(".delete-button")) {
-        deletePlant(target.closest(".plant-card"));
-	} else if (target.classList.contains("plant-card") || target.closest(".plant-card")) {
-        displayProgress(target.closest(".plant-card"));
+        deletePlant(target.closest(".card"));
+	} else if (target.classList.contains("card") || target.closest(".card")) {
+        displayProgress(target.closest(".card"));
     }
     });
 
@@ -106,13 +106,8 @@ async function displayPlant() {
     });
     
     if (response.ok) {
+        emptyContainer("plant-card");
         const cardContainer = document.getElementById("plant-container");
-
-        const cards = document.querySelectorAll("#plant-card");
-        cards.forEach((c) => {
-            c.remove();
-        });
-
         const plants = await response.json();
         plants.forEach(plant => {
             const plantId = plant.tanaman_id;
@@ -128,7 +123,7 @@ async function displayPlant() {
 
 function createCard(plantId, plantName, currentDay, remainingDay) {
     const card = document.createElement("div");
-    card.classList.add("plant-card");
+    card.classList.add("card");
     card.setAttribute("id", "plant-card");
     
     card.innerHTML = `
@@ -155,21 +150,9 @@ function createCard(plantId, plantName, currentDay, remainingDay) {
             </div>
         </div>
 
-        <div class="card-image">
-
-        </div>
+        <div class="card-chart"></div>
     `;
     return card;
-}
-
-function closeBox(box) {
-    const confirmationBox = box;
-    const barrier = document.querySelector(".barrier");
-    const content = document.querySelector(".wrapper")
-
-    confirmationBox.classList.remove("active");
-    barrier.classList.remove("active");
-    content.classList.remove("dark");
 }
     
 async function displayProgress(card) {
@@ -184,8 +167,10 @@ async function displayProgress(card) {
         const checked = card.querySelector(".checked");
         checked.classList.add("active");
 
-        const progressText = document.getElementById("progress-text");
-        progressText.classList.add("active");
+        const progressText = document.querySelectorAll(".progress-text");
+        progressText.forEach((text) => {
+            text.classList.add("active");
+        })
 
         const progressContainer = document.getElementById("progress-container");
         progressContainer.classList.add("active");
@@ -205,6 +190,7 @@ async function displayProgress(card) {
         });
 
         if (response.ok) {
+            emptyContainer("progress-card")
             const plantProgress = await response.json();
 
             let weeks = [];
@@ -219,22 +205,33 @@ async function displayProgress(card) {
                 pupuk_c.push(parseInt(progress.pupuk_c));
             });
 
-            new Chart("myChart", {
-                type: "line",
+            const canvas = document.createElement("canvas");
+            canvas.setAttribute("id", "progress-chart");
+            
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.setAttribute("id", "progress-card");
+            card.appendChild(canvas);
+            
+            const progressContainer = document.getElementById("progress-container");
+            progressContainer.appendChild(card);
+
+            let progressChart = new Chart("progress-chart", {
+            type: "line",
                 data: {
                     labels: weeks,
                     datasets: [{
                     fill: false,
-                    lineTension: 0,
-                    backgroundColor: "rgba(0,0,255,1.0)",
-                    borderColor: "rgba(0,0,255,0.1)",
+                    tension: 0,
+                    backgroundColor: "rgba(255, 0, 90, 1)",
+                    borderColor: "rgba(255, 0, 90, 1)",
                     data: pupuk_a
                     }]
                 },
                 options: {
                     legend: {display: false},
                     scales: {
-                    yAxes: [{ticks: {min: 0, max:200}}],
+                        yAxes: [{ticks: {min: 0, max:100}}],
                     }
                 }
             });

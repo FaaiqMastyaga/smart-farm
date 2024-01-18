@@ -11,3 +11,20 @@ function activateSideBar() {
     const section = document.querySelector(".section");
     section.classList.toggle("shrink");
 }
+
+function closeBox(box) {
+    const confirmationBox = box;
+    const barrier = document.querySelector(".barrier");
+    const content = document.querySelector(".wrapper")
+
+    confirmationBox.classList.remove("active");
+    barrier.classList.remove("active");
+    content.classList.remove("dark");
+}
+
+function emptyContainer(id) {
+    const cards = document.querySelectorAll(`#${id}`);
+    cards.forEach((c) => {
+        c.remove();
+    })
+}

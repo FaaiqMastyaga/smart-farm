@@ -1,15 +1,15 @@
 .wrapper .section .card-container {
     margin-top: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
 }
   
-.wrapper .section .card-container .plant-card {
+.wrapper .section #plant-container .card {
     background: #fff;
     display: inline-block;
-    color: #adadad;
+    color: #000000;
     border-radius: 0.6rem;
     box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
     -webkit-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
@@ -97,7 +97,7 @@
     conic-gradient(from 90deg at var(--b) var(--b),#f0f0f0 90deg,#fff 0) 
     calc(100% + var(--b)/2) calc(100% + var(--b)/2)/
     calc(50%  + var(--b))   calc(50%  + var(--b));
-display: inline-block;
+    display: inline-block;
 }
 
 .alt {
@@ -109,22 +109,40 @@ display: inline-block;
     calc(50%  + var(--b))   calc(50%  + var(--b));
 }
 
-.wrapper .section #progress-text {
+.wrapper .section .progress-text {
     display: none;
 }
 
-.wrapper .section #progress-text h2 {
-    color: #000000;
-}
-
-.wrapper .section #progress-text p {
-    color: #000000;
-}
-
-.wrapper .section #progress-text.active {
-    display: contents;
+.wrapper .section .progress-text.active {
+    display: grid;
 }
 
 .wrapper .section #progress-container.active {
     display: flex;
+}
+
+.wrapper .section #progress-container .card {
+    background: #fff;
+    color: #adadad;
+    border-radius: 0.6rem;
+    box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
+    -webkit-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
+    -moz-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
+    width: 33rem;
+    height: 20rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    padding-top: 3rem;
+    padding-left: 2rem;
+    padding-right: 3rem;
+    cursor: pointer;
+}
+
+.wrapper .section #plant-container .card .canvas {
+    height: 100%;
+    width: 100%;
+}
+.wrapper .section #progress-container .card .canvas {
+    height: 100%;
+    width: 100%;
 }

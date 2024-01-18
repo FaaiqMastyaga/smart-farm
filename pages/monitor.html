@@ -125,6 +125,64 @@
             <div id="progress-container" class="card-container"></div>
         </div>
     </div>
+    <div class="popUp">
+        <div class="close-btn">&times;</div>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="create-new">Add New</button>
+            <button class="tab-btn" data-tab="create-existing">Add By Table</button>
+        </div>
+        <!-- Form Add New -->
+        <div class="tab-content create-new active">
+            <h2>Create New</h2>
+            <div class="form">
+                <form id="createNewForm" action="../php/add_new.php" method="POST">
+                    <div class="form-group">
+                        <label for="nama_tanaman">Nama Tanaman</label>
+                        <input type="text" class="form-control" name="nama_tanaman" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deskripsi_tanaman">Deskripsi Tanaman:</label>
+                        <textarea class="form-control" name="deskripsi_tanaman" rows="2" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="masa_panen">Masa Panen:</label>
+                        <input type="number" class="form-control" name="masa_panen" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_pupuk">Nama Pupuk:</label>
+                        <input type="text" class="form-control" name="nama_pupuk" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah_pupuk">Jumlah Pupuk:</label>
+                        <input type="number" class="form-control" name="jumlah_pupuk" required>
+                    </div>
+                    <div class="form-group">
+                    <label for="waktu_pemupukan">Waktu Pemupukan:</label>
+                    <input type="date" class="form-control" name="waktu_pemupukan" required>
+                    </div>
+                    <!-- Tambahkan elemen formulir lainnya sesuai kebutuhan -->
+                    <button id="submit-create-new" class="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <!-- Form Add By Table -->
+        <div class="tab-content create-existing">
+            <!-- Konten Tab "Create Existing" -->
+            <h2>Add By Table</h2>
+            <div class="form">
+                <form action="../php/add_table.php">
+                    <label for="excelFile">Choose Excel File:</label>
+                    <input type="file" name="excelFile" accept=".xls, .xlsx" required>
+                <!-- Tambahkan elemen formulir lainnya sesuai kebutuhan -->
+                <button id="submit-create-existing" class="upload">Upload</button>
+                </form>
+            </div>
+        </div>
+        <!-- View Tabel -->
+        <div class="viewTable">
+        </div>
+
+    </div>
 
     <footer class="footer"></footer>
 

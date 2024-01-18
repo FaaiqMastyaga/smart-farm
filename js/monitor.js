@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const plusCard = document.getElementById("plus-card");
     const plantContainer = document.getElementById("plant-container");
 
-    plusCard.addEventListener("click", addPlant);
+    plusCard.addEventListener("click", showpopUp);
 
     plantContainer.addEventListener("click", (event) => {
     const target = event.target;
@@ -14,7 +14,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     displayPlant();
+
+    // Gunakan Fetch API untuk mengambil konten dari view.php
+    fetch('../php/view_table.php')
+        .then(response => response.text())
+        .then(data => {
+            // Set konten dari viewTable dengan konten dari view.php
+            document.querySelector('.viewTable').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
 });
+function showpopUp() {
+    document.querySelector(".popUp").classList.add("active");
+}
+// document.querySelector().addEventListener("click", function(){
+//     document.querySelector(".popUp").classList.add("active");
+
+// });
+
+document.querySelector(".popUp .close-btn").addEventListener("click", function(){
+    document.querySelector(".popUp").classList.remove("active");
+
+});
+
+
 
 function addPlant() {
     // display box to add plant
@@ -238,3 +264,17 @@ async function displayProgress(card) {
         }
     }
 }
+
+// Tambahan
+// Tab
+document.querySelectorAll(".tab-btn").forEach(tabBtn => {
+    tabBtn.addEventListener("click", function() {
+        const tabName = this.getAttribute("data-tab");
+        document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+        this.classList.add("active");
+        document.querySelectorAll(".tab-content").forEach(tabContent => tabContent.classList.remove("active"));
+        document.querySelector(`.tab-content.${tabName}`).classList.add("active");
+    });
+});
+
+// <View Table -->

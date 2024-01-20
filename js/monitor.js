@@ -1,86 +1,220 @@
 document.addEventListener("DOMContentLoaded", () => {
     const plusCard = document.getElementById("plus-card");
     const plantContainer = document.getElementById("plant-container");
+    const fileInput = document.querySelector('input[name="jadwal"');
 
-    plusCard.addEventListener("click", showpopUp);
-
+    plusCard.addEventListener("click", handlePlusCard);
+    
+    fileInput.addEventListener("change", handleFileSelect);
+    
     plantContainer.addEventListener("click", (event) => {
-    const target = event.target;
-    if (target.classList.contains("delete-button") || target.closest(".delete-button")) {
-        deletePlant(target.closest(".card"));
-	} else if (target.classList.contains("card") || target.closest(".card")) {
-        displayProgress(target.closest(".card"));
-    }
+        const target = event.target;
+        if (target.classList.contains("delete-button") || target.closest(".delete-button")) {
+            deletePlant(target.closest(".card"));
+        } else if (target.classList.contains("card") || target.closest(".card")) {
+            displayProgress(target.closest(".card"));
+        }
     });
-
+  
     displayPlant();
-
-    // Gunakan Fetch API untuk mengambil konten dari view.php
-    fetch('../php/view_table.php')
-        .then(response => response.text())
-        .then(data => {
-            // Set konten dari viewTable dengan konten dari view.php
-            document.querySelector('.viewTable').innerHTML = data;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-
-});
-function showpopUp() {
-    document.querySelector(".popUp").classList.add("active");
-}
-// document.querySelector().addEventListener("click", function(){
-//     document.querySelector(".popUp").classList.add("active");
-
-// });
-
-document.querySelector(".popUp .close-btn").addEventListener("click", function(){
-    document.querySelector(".popUp").classList.remove("active");
-
 });
 
-
-
-function addPlant() {
+function handlePlusCard() {
     // display box to add plant
     const addPlantBox = document.getElementById("add-plant-box");
     addPlantBox.classList.add("active"); 
     
-    // create button inside form container
-    const cancelButton = document.createElement("button");
-    cancelButton.setAttribute("id", "cancel-button");
-    cancelButton.textContent = "Cancel";
-    const formContainer = document.querySelector(".form-container");
-    formContainer.appendChild(cancelButton); 
-    
-    // activate form input tab
-    const formInput = document.getElementById("form-input");
-    formInput.classList.add("active");
-    
-    // activate form select tab
-    const formSelect = document.getElementById("form-select");
-    formSelect.classList.add("active"); // uncomment to activate
-    
-    // activate barrier -> penghalang supaya ga bisa ngeklik konten lain selain box untuk nambah tanaman
+    // activate barrier
     const barrier = document.querySelector(".barrier");
     barrier.classList.add("active");
     
     // darken the content
     const content = document.querySelector(".wrapper");
     content.classList.add("dark");
+        
+    const createNewButton = document.getElementById("create-new-button");
+    const createExistingButton = document.getElementById("create-existing-button");
     
-    // exit add plant box
-    cancelButton.addEventListener("click", () => {
-        cancelButton.remove();
+    const createNewTab = document.getElementById("create-new-tab");
+    const createExistingTab = document.getElementById("create-existing-tab");
+    
+    const submitCreateNewButton = document.getElementById("submit-create-new");
+    const submitCreateExistingButton = document.getElementById("submit-create-existing");
+
+    const closeButton = addPlantBox.querySelector(".close-button");
+
+    // change to create new tab
+    createNewButton.addEventListener("click", () => {
+        changeTabBehavior(createNewButton, createNewTab);
+    });
+    
+    // change to create existing tab
+    createExistingButton.addEventListener("click", () =>  {
+        changeTabBehavior(createExistingButton, createExistingTab);
+    });
+
+    submitCreateNewButton.addEventListener("click", () => {
+        addPlant();
+    });
+    
+    submitCreateExistingButton.addEventListener("click", () => {
+        addPlant();
         closeBox(addPlantBox);
     });
+    
+    // close the popup
+    closeButton.addEventListener("click", () => {
+        changeTabBehavior(createNewButton, createNewTab);
+        closeBox(addPlantBox);
+    });
+}
+
+function changeTabBehavior(button, tab) {
+    const addPlantBox = document.getElementById("add-plant-box");
+    const tabButton = addPlantBox.querySelectorAll(".tab-button");
+    const tabForm = addPlantBox.querySelectorAll(".tab-form");
+    const input = addPlantBox.querySelectorAll("input");
+    const submit = addPlantBox.querySelectorAll(".submit");
+
+    // empty all input box
+    input.forEach((i) => {
+        i.value = '';
+    });
+    submit.forEach((s) => {
+        s.value = "Submit";
+    })
+    // unactivate all tab button
+    tabButton.forEach(button => {
+        button.classList.remove("active");
+    })
+    // unactivate all tab form
+    tabForm.forEach(form => {
+        form.classList.remove("active");
+    })
+
+    const tableContainer = document.querySelector(".tab-table");
+    tableContainer.innerHTML = "";
+    
+    button.classList.add("active");
+    tab.classList.add("active");
+}
+
+async function addPlant() {
+    const plantName = document.getElementById("nama_tanaman").value;
+    const harvestDay = document.getElementById("masa_panen").value;
+    const table = document.querySelector("tbody").querySelectorAll("tr");
+
+    let schedule = [];
+    table.forEach((tr) => {
+        let row = []; 
+        const data = tr.querySelectorAll("td").forEach((data) => {
+            row.push(data.textContent);
+        });
+        schedule.push(row);
+    });
+
+    const action = "add_plant";
+
+    const response = await fetch(`http://localhost/smart-farm/php/actions.php`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            action: action,
+            plantName: plantName,
+            harvestDay: harvestDay,
+            schedule: schedule,
+        }),
+    });
+
+    if (response.ok) {
+        alert(response);
+    }
+}
+
+function handleFileSelect(evt) {
+    const files = evt.target.files;
+    const file = files[0];
+  
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const data = e.target.result;
+            
+          // Call the function to parse the Excel data
+          parseExcelDataToTable(data);
+        };
+      
+        // Read the file as binary
+        reader.readAsBinaryString(file);
+    } else {
+        const tableContainer = document.querySelector(".tab-table");
+        tableContainer.innerHTML = "";
+    }
+} 
+
+function parseExcelDataToTable(data) {    
+    const tableContainer = document.querySelector(".tab-table");
+
+    const workbook = XLSX.read(data, {type: "binary"});
+    const sheetName = "Sheet1";
+
+    if (!sheetName) {
+        console.error("No sheets found in the Excel file.");
+        return;
+    }
+    
+    const sheet = workbook.Sheets[sheetName];
+    const table = XLSX.utils.sheet_to_json(sheet, {header: 1});
+    
+    displayTable(table, tableContainer)
+}
+
+function displayTable(data, tableContainer) {
+    // Clear the existing content of the table container
+    tableContainer.innerHTML = "";
+    
+    // Create a table element
+    const table = document.createElement("table");
+
+    // Create the table header
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th>Pekan</th>
+                <th>Dosis (ppm)</th>
+                <th>Pupuk A (mL)</th>
+                <th>Pupuk B (mL)</th>
+                <th>Pupuk C (mL)</th>
+            </tr>
+        </thead>
+    `
+
+    // Create the table body
+    const tbody = document.createElement("tbody");
+
+    for (let i = 1; i < data.length; i++) {
+        const rowData = data[i];
+        const tr = document.createElement("tr");
+
+        rowData.forEach((cellData) => {
+            const td = document.createElement("td");
+            td.textContent = cellData;
+            tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
+    tableContainer.appendChild(table);
 }
 
 function deletePlant(card) {
     const deletePlantBox = document.getElementById("delete-plant-box");
     deletePlantBox.classList.add("active");
-
+    
     const barrier = document.querySelector(".barrier");
     barrier.classList.add("active");
     
@@ -167,9 +301,7 @@ async function displayPlant() {
             const chartContainer = card.querySelector(".card-chart");
             chartContainer.innerHTML = "";
             if (response.ok) {
-    
                 const plantProgress = await response.json();
-
                 createChart(plantProgress, chartContainer, `progress-chart-${plantId}`);
             }
         });
@@ -301,22 +433,8 @@ function createChart(plantProgress, container, id) {
             options: {
                 legend: {display: false},
                 scales: {
-                    yAxes: [{ticks: {min: 0, max:100}}],
+                    yAxes: [{ticks: {min: 0, max: 100}}],
                 }
             }
         });
 }
-
-// Tambahan
-// Tab
-document.querySelectorAll(".tab-btn").forEach(tabBtn => {
-    tabBtn.addEventListener("click", function() {
-        const tabName = this.getAttribute("data-tab");
-        document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-        this.classList.add("active");
-        document.querySelectorAll(".tab-content").forEach(tabContent => tabContent.classList.remove("active"));
-        document.querySelector(`.tab-content.${tabName}`).classList.add("active");
-    });
-});
-
-// <View Table -->

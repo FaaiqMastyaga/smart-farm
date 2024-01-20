@@ -18,49 +18,72 @@
     <!-- CSS -->
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/monitor/monitor.css" />
-    <link rel="stylesheet" href="../css/monitor/other.css" />
+    <link rel="stylesheet" href="../css/monitor/popup.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+
   </head>
 
   <body>
     <div class="barrier"></div>
 
-    <div class="confirmation-box" id="add-plant-box">
-        <div class="form-container" id="form-input">
-            <label for="plant-name">Nama Tanaman:</label>
-            <input id="plant-name" type="text"> 
-            <br>
-            <label for="target-day">Target Panen:</label>
-            <input id="target-day" type="number"> 
-            <br>
-            <label for="schedule">Jadwal: </label>
-            <input 
-            id="schedule"
-            type="file" 
-                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
-            > 
-            <br>
+    <div class="pop-up" id="add-plant-box">
+        <div class="header">
+            <div class="tab-button-container">
+                <button class="tab-button active" id="create-new-button">Create New</button>
+                <button class="tab-button" id="create-existing-button">Create Existing</button>
+            </div>
+            <button class="close-button"><i class="fa fa-times-circle"></i></button>
         </div>
-
-        <div class="form-container" id="form-select">
-            <label for="plan-list">Nama Tanaman:</label>
-            <input list="plant-list">
-            <datalist id="plant-list">
-                <option value="Bayam">
-                <option value="Kangkung">
-                <option value="Jagung">
-                <option value="Singkong">
-                <option value="Cabai">
-                <option value="Sawi">
-            </datalist>
-            <br>
-        </div>
-
-        <div class="schedule-container">
-
+        <div class="content">
+            <div class="tab-form-container">
+                <div class="tab-form active" id="create-new-tab">
+                    <h2>Create New</h2>
+                    <br>
+                    <label for="nama_tanaman">Nama Tanaman</label>
+                    <br>
+                    <input type="text" class="form-control" name="nama_tanaman" id="nama_tanaman" placeholder="Cabai" required>
+                    <br><br>
+                    <label for="masa_panen">Masa Panen</label>
+                    <br>
+                    <input type="number" class="form-control" name="masa_panen" id="masa_panen" min="1" placeholder="120" required>
+                    <br><br>
+                    <label for="jadwal">Jadwal Pemupukan</label>
+                    <br>  
+                    <input type="file" name="jadwal" id="tabel-jadwal" accept=".xls, .xlsx" required>
+                    <br><br>
+                    <button id="submit-create-new" class="submit">Submit</button>
+                </div>
+                <div class="tab-form" id="create-existing-tab">
+                    <h2>Create Existing</h2>
+                    <br>
+                    <label for="nama_tanaman">Nama Tanaman</label>
+                    <br>
+                    <input type="text" class="form-control" name="nama_tanaman" id="nama_tanaman" placeholder="Cabai" required>
+                    <br><br>
+                    <label for="masa_panen">Masa Panen</label>
+                    <br>
+                    <input type="number" class="form-control" name="masa_panen" id="masa_panen" min="1" placeholder="120" required>
+                    <br><br>
+                    <label for="jadwal">Jadwal Pemupukan</label>
+                    <br>  
+                    <input name="jadwal" id="tabel-jadwal" list="jadwal" required>
+                    <datalist id="jadwal">
+                        <option value="Bayam"></option>
+                        <option value="Kangkung"></option>
+                        <option value="Cabai"></option>
+                        <option value="Sawi"></option>
+                        <option value="Kentang"></option>
+                    </datalist>
+                    <br><br>
+                    <button id="submit-create-existing" class="submit">Submit</button>
+                </div>
+            </div>
+            <div class="tab-table"></div>
         </div>
     </div>
 
-    <div class="confirmation-box" id="delete-plant-box">
+    <div class="pop-up" id="delete-plant-box">
         <div class="text-content">
             <h2>Are you sure?</h2>
             <br>
@@ -124,64 +147,6 @@
             <p class="progress-text">Development from day 0 to N.</p>
             <div id="progress-container" class="card-container"></div>
         </div>
-    </div>
-    <div class="popUp">
-        <div class="close-btn">&times;</div>
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="create-new">Add New</button>
-            <button class="tab-btn" data-tab="create-existing">Add By Table</button>
-        </div>
-        <!-- Form Add New -->
-        <div class="tab-content create-new active">
-            <h2>Create New</h2>
-            <div class="form">
-                <form id="createNewForm" action="../php/add_new.php" method="POST">
-                    <div class="form-group">
-                        <label for="nama_tanaman">Nama Tanaman</label>
-                        <input type="text" class="form-control" name="nama_tanaman" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="deskripsi_tanaman">Deskripsi Tanaman:</label>
-                        <textarea class="form-control" name="deskripsi_tanaman" rows="2" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="masa_panen">Masa Panen:</label>
-                        <input type="number" class="form-control" name="masa_panen" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nama_pupuk">Nama Pupuk:</label>
-                        <input type="text" class="form-control" name="nama_pupuk" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="jumlah_pupuk">Jumlah Pupuk:</label>
-                        <input type="number" class="form-control" name="jumlah_pupuk" required>
-                    </div>
-                    <div class="form-group">
-                    <label for="waktu_pemupukan">Waktu Pemupukan:</label>
-                    <input type="date" class="form-control" name="waktu_pemupukan" required>
-                    </div>
-                    <!-- Tambahkan elemen formulir lainnya sesuai kebutuhan -->
-                    <button id="submit-create-new" class="submit">Submit</button>
-                </form>
-            </div>
-        </div>
-        <!-- Form Add By Table -->
-        <div class="tab-content create-existing">
-            <!-- Konten Tab "Create Existing" -->
-            <h2>Add By Table</h2>
-            <div class="form">
-                <form action="../php/add_table.php">
-                    <label for="excelFile">Choose Excel File:</label>
-                    <input type="file" name="excelFile" accept=".xls, .xlsx" required>
-                <!-- Tambahkan elemen formulir lainnya sesuai kebutuhan -->
-                <button id="submit-create-existing" class="upload">Upload</button>
-                </form>
-            </div>
-        </div>
-        <!-- View Tabel -->
-        <div class="viewTable">
-        </div>
-
     </div>
 
     <footer class="footer"></footer>

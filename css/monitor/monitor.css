@@ -22,6 +22,10 @@
     cursor: pointer;
 }
 
+.wrapper .section #plant-container .card:hover {
+    filter: brightness(95%);
+}
+
 .wrapper .section #plant-card {
     padding: 0.6rem;
     color: #000000;
@@ -38,7 +42,7 @@
 }
 
 .wrapper .section #plant-card .card-title .checked.active {
-    color: #5bd76b;
+    color: #74f485;
 }
 
 .wrapper .section #plant-card .card-title .title {
@@ -58,6 +62,12 @@
     text-align: center;
     border-radius: 0.3rem;
     cursor: pointer;
+}
+
+.wrapper .section #plant-card .card-title .delete-button:hover {
+    width: 1.55rem;
+    height: 1.55rem;
+    font-size: 1.4rem;
 }
 
 .wrapper .section #plant-card .card-info {
@@ -89,7 +99,7 @@
 }
 
 .wrapper .section #plant-card .card-chart.active {
-    background: #5bd76b;
+    background: #74f485;
 }
 
 .wrapper .section #plant-container .card .canvas {
@@ -104,8 +114,8 @@
 
 /* Plus Icon */
 .plus {
-    --b: 0.4rem; /* the thickness */
-    width: 8rem; /* the size */
+    --b: 0.5rem; /* the thickness */
+    width: 9rem; /* the size */
     aspect-ratio: 1;
     border: 10px solid #f0f0f0; /* the outer space */
     background:
@@ -160,186 +170,4 @@
 .wrapper .section #progress-container .card .canvas {
     height: 100%;
     width: 100%;
-}
-
-.popUp {
-    position: absolute;
-    top: -120%;
-    left: 20%;
-    opacity: 0;
-    background-color: #f0f0f0;
-    transform: translate(-50%-50%) scale(1.25);
-    width: 900px;
-    height: 480px;
-    padding: 20px 30px;
-    box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
-    transition: top 0ms ease-in-out 200ms,
-    opacity 200ms ease-in-out 0ms,
-    transform 20ms ease-in-out 0ms;
-}
-
-.popUp.active {
-    top: 20%;
-    opacity: 1;
-    transform: translate(-50%-50%) scale(1);
-    transition: top 0ms ease-in-out 0ms,
-    opacity 200ms ease-in-out 0ms,
-    transform 20ms ease-in-out 0ms;
-
-}
-@media (max-width: 780px) {
-    .popUp {
-        width: 80%; /* Adjust the width as needed for smaller screens */
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    .popUp .viewTable {
-        display: none; /* Hide the viewTable when screen width is less than 780px */
-    }
-
-    .popUp .tab-content {
-        width: 100%; /* Adjust the width for full width when viewTable is hidden */
-    }
-}
-
-
-.popUp .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
-    background-color: #888;
-    color: #eee;
-    text-align: center;
-    line-height: 17px;
-    border-radius: 20px;
-    cursor: pointer;
-
-}
-
-/* Tambahkan gaya CSS untuk tab dan konten tab */
-.popUp .tabs {
-    display: flex;
-    margin-bottom: 15px;
-    width: 300px;
-}
-
-.popUp .tab-btn {
-    flex: 1;
-    padding: 10px;
-    cursor: pointer;
-    background-color: #95f886;
-    
-}
-
-.popUp .tab-btn.active {
-    background-color: #2eec3b;
-  
-}
-
-.popUp .tab-content {
-    position: absolute;
-    width: 300px;
-    float: left;
-    display: none;
-}
-
-.popUp .tab-content.active {
-    display: block;
-}
-
-.popUp .viewTable{
-    width: 60%;
-    float: Right;
-
-}
-
-.form-group{
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
-
-}
-.submit {
-    width: 150px; /* Sesuaikan lebar yang diinginkan */
-    height: 40px; /* Sesuaikan tinggi yang diinginkan */
-    background-color: #3498db; /* Sesuaikan warna latar belakang */
-    color: #fff; /* Warna teks */
-    border: none;
-    border-radius: 5px; /* Memberikan sudut lengkung pada tombol */
-    cursor: pointer;
-    display: block;
-    margin: 0 auto; /* Membuat tombol berada di tengah secara horizontal */
-}
-
-/* Saat tombol dihover, Anda bisa menambahkan efek warna atau perubahan lainnya */
-.submit:hover {
-    background-color: #2980b9;
-}
-
-.upload {
-    width: 100px; /* Sesuaikan lebar yang diinginkan */
-    height: 20px; /* Sesuaikan tinggi yang diinginkan */
-    background-color: #3498db; /* Sesuaikan warna latar belakang */
-    color: #fff; /* Warna teks */
-    border: none;
-    border-radius: 5px; /* Memberikan sudut lengkung pada tombol */
-    cursor: pointer;
-    display: block;
-    margin-top: 90px;
-    /* margin: 0 auto; Membuat tombol berada di tengah secara horizontal */
-}
-
-/* Saat tombol dihover, Anda bisa menambahkan efek warna atau perubahan lainnya */
-.upload:hover {
-    background-color: #2980b9;
-}
-
-
-.popUp .tab-btn:hover {
-    background-color: rgba(0, 255, 68, 0.1);
-}
-
-/* Tabel */
-.viewTable {
-    width: 100%;
-    max-height: 400px; /* Atur tinggi maksimum div sebelum muncul scroll */
-    overflow: auto; /* Menambahkan properti overflow untuk scroll */
-    border: 1px solid #ddd; /* Contoh garis pembatas */
-    padding: 1px; /* Contoh padding */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Contoh bayangan */
-    background-color: rgb(255, 255, 255); /* Contoh warna latar belakang */
-    border-radius: 5px;
-}
-.viewTable h2 {
-    margin-top: 10px;
-    text-align: center;
-}
-
-#data-table {
-    width: 100%;
-    margin-left: 10px;
-    margin-right: 10px;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-#data-table th, #data-table td {
-    border: 2px solid #dddddd;
-    padding: 2px;
-    text-align: left;
-}
-
-#data-table th {
-    background-color: #f2f2f2;
-}
-
-#data-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-#data-table tbody tr:hover {
-    background-color: #dcdcdc;
 }

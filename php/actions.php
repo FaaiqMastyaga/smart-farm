@@ -22,7 +22,13 @@
 
             if (($data !== null) && (isset($data["action"]))) {
                 $action = $data["action"];
-                if ($action == "delete_plant") {
+                if ($action == "add_plant") {
+                    $plantName = $data["plantName"];
+                    $harvestDay = $data["harvestDay"];
+                    $schedule = $data["schedule"];
+                    addPlant($plantName, $harvestDay, $schedule);
+                }
+                else if ($action == "delete_plant") {
                     $plantId = $data["plantId"];
                     deletePlant($plantId);
                 }

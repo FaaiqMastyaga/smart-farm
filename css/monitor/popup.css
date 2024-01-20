@@ -1,0 +1,265 @@
+.barrier {
+    display: none;
+}
+
+.barrier.active {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    opacity: 0;
+}
+
+.pop-up {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 18px 11px rgba(0,0,0,0.28);
+    -webkit-box-shadow: 0px 0px 18px 11px rgba(0,0,0,0.28);
+    -moz-box-shadow: 0px 0px 18px 11px rgba(0,0,0,0.28);
+    border-radius: 0.7rem;
+    background: #fff;
+    animation: 0.75s appear;
+    z-index: 99999;
+    display: none;
+}
+
+@keyframes appear {
+    from {
+        top: 51%;
+        opacity: 0;
+    }
+    to {
+        top: 50%;
+        opacity: 1;
+    }
+}
+
+#add-plant-box {
+    width: 1000px;
+    height: 56%;
+}
+
+#add-plant-box.active {
+    display: block;
+}
+
+#add-plant-box .header {
+    border-top-left-radius: 0.7rem;
+    border-top-right-radius: 0.7rem;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#add-plant-box .header .tab-button-container {
+    margin-top: 1rem;
+    margin-left: 2rem;
+    width: 30%;
+}
+
+#add-plant-box .header .tab-button {
+    margin: 0;
+    width: 49.5%;
+    height: 100%;
+    cursor: pointer;
+    background-color: #95f886;
+}
+
+#add-plant-box .header .tab-button:hover {
+    filter: brightness(90%);
+}
+
+#add-plant-box .header .tab-button.active {
+    background: #05ed14;
+}
+
+#add-plant-box .header .close-button {
+    margin-top: 1rem;
+    margin-right: 1rem;
+    display: flex;
+    font-size: 1.5rem;
+    background: #fff;
+    color: #adadad;
+    cursor: pointer;
+}
+
+#add-plant-box .header .close-button:hover {
+    color: #848484;
+}
+
+#add-plant-box .content {
+    display: flex;
+    margin-top: 1rem;
+}
+
+#add-plant-box .content .tab-form-container {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    width: 30%;
+    display: block;
+}
+
+#add-plant-box .content #create-new-tab {
+    display: none;
+}
+
+#add-plant-box .content #create-new-tab.active {
+    display: contents;
+}
+
+#add-plant-box .content #create-new-tab input {
+    width: 100%;
+    height: 2rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+#add-plant-box .content #create-new-tab input:focus {
+    border: 1px solid #000;
+}
+
+#add-plant-box .content #create-new-tab input[type="file"] {
+    padding: 0.3rem;
+    cursor: pointer;
+}
+
+#add-plant-box .content #create-existing-tab {
+    display: none;
+}
+
+#add-plant-box .content #create-existing-tab.active {
+    display: contents;
+}
+
+#add-plant-box .content #create-existing-tab input {
+    width: 100%;
+    height: 2rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+#add-plant-box .content .submit {
+    width: 100%;
+    height: 2.5rem;
+    top: 0.5rem;
+    border-radius: 0.3rem;
+    background: #3498db;
+    color: #fff;
+    position: relative;
+    cursor: pointer;
+}
+
+#add-plant-box .content .submit:hover {
+    filter: brightness(120%);
+}
+
+#add-plant-box .content #create-existing {
+    display: none;
+}
+
+#add-plant-box .content #create-existing.active {
+    display: flex;
+}
+
+#add-plant-box .content .tab-table {
+    margin-left: 1.5rem;
+    margin-right: 1rem;
+    width: 70%;
+    height: 22rem;
+    padding: 0 3rem;
+    overflow-y: auto;
+}
+
+#add-plant-box .content .tab-table table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+#add-plant-box .content .tab-table table td, 
+#add-plant-box .content .tab-table table th {
+    border: 1px solid #ddd;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+#add-plant-box .content .tab-table table th {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+#delete-plant-box.active {
+    width: 25rem;
+    display: grid;
+}
+
+#delete-plant-box .text-content {
+    margin: 2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+#delete-plant-box .text-content p {
+    color: #adadad;
+}
+
+#delete-plant-box .button-container {
+    margin: 1.5rem;
+    margin-top: 0.5rem;
+    justify-content: center;
+    display: grid;
+}
+
+#delete-plant-box .button-container .button {
+    margin: 0.5rem;
+    width: 22rem;
+    height: 2rem;
+    border-radius: 0.3rem;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+#delete-plant-box .button-container #cancel-button {
+    background-color: #fff;
+    border: 1px solid;
+    border-color: #adadad;
+    color: #000000;
+}
+
+#delete-plant-box .button-container #cancel-button:hover {
+    filter: brightness(95%);
+}
+
+#delete-plant-box .button-container #delete-button {
+    background-color: #cf1e1e;
+    border: 1px solid;
+    border-color: #cf1e1e;
+    color: #fff;
+}
+
+#delete-plant-box .button-container #delete-button:hover {
+    filter: brightness(120%);
+}

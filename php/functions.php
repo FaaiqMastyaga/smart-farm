@@ -35,18 +35,18 @@
         $db->close();
     }
     
-        function getPlantProgress($plantId) {
-            global $db;
-    
-            $sql = $db->query("SELECT * FROM progress WHERE tanaman_id = $plantId");
-            $plantProgress = array();
-            
-            while($row = $sql->fetch_assoc()) {
-                $plantProgress[] = $row;
-            }
-            echo json_encode($plantProgress);
-            $db->close();
+    function getPlantProgress($plantId) {
+        global $db;
+
+        $sql = $db->query("SELECT * FROM progress WHERE tanaman_id = $plantId ORDER BY pekan");
+        $plantProgress = array();
+        
+        while($row = $sql->fetch_assoc()) {
+            $plantProgress[] = $row;
         }
+        echo json_encode($plantProgress);
+        $db->close();
+    }
 
     function deletePlant($plantId) {
         global $db;

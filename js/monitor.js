@@ -55,6 +55,7 @@ function handlePlusCard() {
 
     submitCreateNewButton.addEventListener("click", () => {
         addPlant();
+        closeBox(addPlantBox);
     });
     
     submitCreateExistingButton.addEventListener("click", () => {
@@ -129,7 +130,8 @@ async function addPlant() {
     });
 
     if (response.ok) {
-        alert(response);
+        console.log(response);
+        displayPlant();
     }
 }
 
@@ -302,7 +304,7 @@ async function displayPlant() {
             chartContainer.innerHTML = "";
             if (response.ok) {
                 const plantProgress = await response.json();
-                createChart(plantProgress, chartContainer, `progress-chart-${plantId}`);
+                createChart(plantProgress, chartContainer, `progress-chart-${plantId}`, false);
             }
         });
     }
@@ -394,13 +396,12 @@ async function displayProgress(card) {
             const progressContainer = document.getElementById("progress-container");
             progressContainer.appendChild(progressCard);
 
-            createChart(plantProgress, progressCard, "progress-chart")
+            createChart(plantProgress, progressCard, "progress-chart", true);
         }
-        
     }
 }
 
-function createChart(plantProgress, container, id) {
+function createChart(plantProgress, container, id, legend) {
     let weeks = [];
     let pupuk_a = [];
     let pupuk_b = [];
@@ -418,23 +419,47 @@ function createChart(plantProgress, container, id) {
 
     container.appendChild(canvas);
 
-    new Chart(id, {
+    const data = {
+        labels: weeks,
+        datasets: [{
+            label: "pupuk_a",
+            data: pupuk_a,
+            fill: false,
+            tension: 0,
+            borderColor: "red",
+            backgroundColor: "red",
+        }, {
+            label: "pupuk_b",
+            data: pupuk_b,
+            fill: false,
+            tension: 0,
+            borderColor: "green",
+            backgroundColor: "green",
+        }, {
+            label: "pupuk_c",
+            data: pupuk_c,
+            fill: false,
+            tension: 0,
+            borderColor: "blue",
+            backgroundColor: "blue",
+        }]
+    }
+    
+    const config = {
         type: "line",
-            data: {
-                labels: weeks,
-                datasets: [{
-                fill: false,
-                tension: 0,
-                backgroundColor: "rgba(255, 0, 90, 1)",
-                borderColor: "rgba(255, 0, 90, 1)",
-                data: pupuk_a
-                }]
-            },
-            options: {
-                legend: {display: false},
-                scales: {
-                    yAxes: [{ticks: {min: 0, max: 100}}],
+        data: data,
+        options: {
+            legend: {
+                display: legend,
+                labels: {
+                    usePointStyle: true,
                 }
+            },
+            scales: {
+                yAxes: [{ticks: {min: 0, max: 100}}],
             }
-        });
+        }
+    } 
+    
+    new Chart(id, config);
 }

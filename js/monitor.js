@@ -11,13 +11,63 @@ document.addEventListener("DOMContentLoaded", () => {
         const target = event.target;
         if (target.classList.contains("delete-button") || target.closest(".delete-button")) {
             deletePlant(target.closest(".card"));
-        } else if (target.classList.contains("card") || target.closest(".card")) {
+        } 
+        else if (target.classList.contains("start-button") || target.closest(".start-button")) {
+            startPlant(target.closest(".card"));
+        } 
+        else if (target.classList.contains("card") || target.closest(".card")) {
             displayProgress(target.closest(".card"));
         }
     });
-  
     displayPlant();
+    incrementDay();
+    setInterval(incrementDay, 1000);
 });
+
+async function incrementDay() {
+    const action = 'get_plants';
+    
+    let response = await fetch(`http://localhost/smart-farm/php/actions.php?action=${action}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (response.ok) {
+        const plants = await response.json();
+
+        plants.forEach(async plant => {
+            const plantId = plant.tanaman_id;
+            let day = plant.hari;
+            const startingTime = plant.waktu_mulai;
+            const currentTime = getCurrentTime();
+
+            if (startingTime === currentTime) {
+                day ++;
+
+                const action = "increment_day";
+                response = await fetch(`http://localhost/smart-farm/php/actions.php`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        action: action,
+                        plantId: plantId,
+                        day: day,
+                    }),
+                });   
+                
+                if (response.ok) {
+                    const text = await response.text();
+                    console.log(text);
+                    displayPlant();
+                }
+            }
+        })
+    }
+}
 
 function handlePlusCard() {
     // display box to add plant
@@ -130,7 +180,6 @@ async function addPlant() {
     });
 
     if (response.ok) {
-        console.log(response);
         displayPlant();
     }
 }
@@ -213,6 +262,40 @@ function displayTable(data, tableContainer) {
     tableContainer.appendChild(table);
 }
 
+function getCurrentTime() {
+    // Get current time (including date, month, year)
+    const currentTime = new Date();
+    // Set timezone to Indonesia
+    const options = { timeZone: 'Asia/Jakarta', hour12: false };
+    // Format time to HH:mm
+    const formattedTime = currentTime.toLocaleTimeString('en-US', options);
+
+    return formattedTime;
+}
+
+async function startPlant(card) {
+    const plantId = card.querySelector("h2").getAttribute("id");
+    const currentTime = getCurrentTime()    
+    const action = "start_progress";
+
+    const response = await fetch(`http://localhost/smart-farm/php/actions.php`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            action: action,
+            plantId: plantId,
+            currentTime: currentTime,
+        }),
+    });
+
+    if (response.ok) {
+        const text = await response.text();
+        console.log(text)
+    }
+}
+
 function deletePlant(card) {
     const deletePlantBox = document.getElementById("delete-plant-box");
     deletePlantBox.classList.add("active");
@@ -284,33 +367,36 @@ async function displayPlant() {
             const plantName = plant.nama_tanaman;
             const currentDay = plant.hari;
             const remainingDay = plant.masa_panen - currentDay;
+            const startingTime = plant.waktu_mulai;
 
-            const card = createCard(plantId, plantName, currentDay, remainingDay);
+            const card = createCard(plantId, plantName, currentDay, remainingDay, startingTime);
             cardContainer.insertBefore(card, cardContainer.lastElementChild);
 
-            const action = "get_plant_progress";
-            response = await fetch(`http://localhost/smart-farm/php/actions.php`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    action: action,
-                    plantId: plantId,
-                }),
-            });    
-            
-            const chartContainer = card.querySelector(".card-chart");
-            chartContainer.innerHTML = "";
-            if (response.ok) {
-                const plantProgress = await response.json();
-                createChart(plantProgress, chartContainer, `progress-chart-${plantId}`, false);
+            if (startingTime) {
+                const action = "get_plant_progress";
+                response = await fetch(`http://localhost/smart-farm/php/actions.php`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        action: action,
+                        plantId: plantId,
+                    }),
+                });    
+                
+                const chartContainer = card.querySelector(".card-chart");
+                chartContainer.innerHTML = "";
+                if (response.ok) {
+                    const plantProgress = await response.json();
+                    createChart(plantProgress, chartContainer, `progress-chart-${plantId}`, false);
+                }
             }
         });
     }
 }
 
-function createCard(plantId, plantName, currentDay, remainingDay) {
+function createCard(plantId, plantName, currentDay, remainingDay, startingTime) {
     const card = document.createElement("div");
     card.classList.add("card");
     card.setAttribute("id", "plant-card");
@@ -330,17 +416,28 @@ function createCard(plantId, plantName, currentDay, remainingDay) {
 
         <div class="card-info">
             <div class="current-day">
-                <h4>Hari ke</h4>
-                <p><span>${currentDay} </span> D</p>
-                </div>
-                <div class="harvest-day">
+                <h4>Progress</h4>
+                <p><span>${currentDay} </span> Hari</p>
+            </div>
+            <div class="harvest-day">
                 <h4>Panen dalam</h4>
-                <p><span>${remainingDay} </span> D</p>
+                <p><span>${remainingDay} </span> Hari</p>
             </div>
         </div>
-
-        <div class="card-chart"></div>
     `;
+
+    if (startingTime) {
+        const cardChart = document.createElement("div");
+        cardChart.classList.add("card-chart");
+        card.appendChild(cardChart);
+    } 
+    else {
+        const startButton = document.createElement("button");
+        startButton.classList.add("start-button");
+        startButton.textContent = "Start";
+        card.appendChild(startButton)
+    }
+
     return card;
 }
     
@@ -352,15 +449,15 @@ async function displayProgress(card) {
             const checked = c.querySelector(".checked");
             checked.classList.remove("active");
 
-            const cardChart = c.querySelector(".card-chart");
-            cardChart.classList.remove("active");
+            // const cardChart = c.querySelector(".card-chart");
+            // if (cardChart.classList.contains("selected")) {}
+            // cardChart.classList.remove("selected");
         });
 
         const checked = card.querySelector(".checked");
         checked.classList.add("active");
 
         const cardChart = card.querySelector(".card-chart");
-        cardChart.classList.add("active");
 
         const progressText = document.querySelectorAll(".progress-text");
         progressText.forEach((text) => {
@@ -392,8 +489,6 @@ async function displayProgress(card) {
             const progressCard = document.createElement("div");
             progressCard.classList.add("card");
             progressCard.setAttribute("id", "progress-card");
-            
-            const progressContainer = document.getElementById("progress-container");
             progressContainer.appendChild(progressCard);
 
             createChart(plantProgress, progressCard, "progress-chart", true);

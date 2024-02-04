@@ -32,9 +32,27 @@
                     $plantId = $data["plantId"];
                     deletePlant($plantId);
                 }
+                else if ($action == "get_plant") {
+                    $plantId = $data["plantId"];
+                    getPlant($plantId);
+                }
                 else if ($action == "get_plant_progress") {
                     $plantId = $data["plantId"];
                     getPlantProgress($plantId);
+                }
+                else if ($action == "get_schedule") {
+                    $plantId = $data["plantId"];
+                    getSchedule($plantId);
+                }
+                else if ($action == "start_progress") {
+                    $plantId = $data["plantId"];
+                    $currentTime = $data["currentTime"];
+                    startProgress($plantId, $currentTime);
+                }
+                else if ($action == "increment_day") {
+                    $plantId = $data["plantId"];
+                    $day = $data["day"];
+                    incrementDay($plantId, $day);
                 }
             }
         }

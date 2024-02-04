@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Farm</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@200&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/schedule.css" />
+  </head>
+
+  <body>
+    <!-- Navbar start -->
+    <nav class="navbar">
+        <div class="navbar-main">
+            <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a>
+            <a href="#" id="navbar-logo">Smart <span>Farm.</span></a>
+        </div>
+        
+        <div class="search-container">
+            <form action="../php/actions.php">
+                <button type="submit"><i class="fa fa-search fa-lg"></i></button>
+                <input type="text" placeholder="Search..">
+            </form>
+        </div>
+
+        <div class="account-info">
+            <a href="#" id="search"><i class="fa fa-search fa-lg"></i></a>
+            <a href="#" id="notification"><i class="fa fa-bell-o fa-lg"></i></a>
+            <a href="#" id="user"><i class="fa fa-user-o fa-lg"></i></a>
+        </div>
+    </nav>
+    <!-- Navbar end -->
+
+    <div class="wrapper">
+        <!-- Sidebar start -->
+        <div class="sidebar active">
+            <!-- menu item -->
+            <ul id="page-container">
+                <li class="page"><a href="./monitor.html">
+                    <span class="icon"><i class="fa fa-television fa-lg"></i></span>
+                    <span class="item">Monitor</span>
+                </a></li>
+                <li class="page"><a href="./control.html">
+                    <span class="icon"><i class="fa fa-gears fa-lg"></i></span>
+                    <span class="item">Control</span>
+                </a></li>
+                <li class="page"><a href="#" class="active">
+                    <span class="icon"><i class="fa fa-calendar fa-lg"></i></span>
+                    <span class="item">Schedule</span>
+                </a></li>
+            </ul>
+        </div>
+        <!-- Sidebar end -->
+
+    <div class="section shrink">
+        <h2>Schedule</h2>
+        <p>View and customize schedule of fertilizing.</p>
+        <div id="plant-container" class="card-container"></div>
+        <div id="schedule-container" class="card-container"></div>
+    </div>
+
+    <footer class="footer"></footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/schedule.js"></script>
+  </body>
+</html>

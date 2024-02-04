@@ -1,0 +1,136 @@
+.wrapper .section .card-container {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+  
+.wrapper .section #plant-container .card {
+    background: #fff;
+    display: inline-block;
+    color: #000000;
+    border-radius: 0.6rem;
+    box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
+    -webkit-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
+    -moz-box-shadow: 3px 6px 36px -13px rgba(0,0,0,0.61);
+    width: 16rem;
+    height: 16rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.wrapper .section #plant-container .card:hover {
+    filter: brightness(95%);
+}
+
+.wrapper .section #plant-card {
+    padding: 0.6rem;
+    color: #000000;
+}
+
+.wrapper .section #plant-card .card-title {
+    display: flex;
+}
+
+.wrapper .section #plant-card .card-title .checked {
+    position: relative;
+    color: #757575;
+    font-size: 2rem;
+}
+
+.wrapper .section #plant-card .card-title .checked.active {
+    color: #74f485;
+}
+
+.wrapper .section #plant-card .card-title .title {
+    margin-left: 0.5rem;
+    padding-top: 0.2rem;
+    max-width: 8rem;
+}
+
+.wrapper .section #plant-card .card-title .delete-button {
+    background: #ff0000;
+    color: #fff;
+    right: 0;
+    margin-left: auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.3rem;
+    text-align: center;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.wrapper .section #plant-card .card-title .delete-button:hover {
+    width: 1.55rem;
+    height: 1.55rem;
+    font-size: 1.4rem;
+}
+
+.wrapper .section #plant-card .card-info {
+    margin-top: 0.5rem;
+    padding: 0 2.2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.wrapper .section #plant-card .card-info {
+    text-align: center;
+}
+
+.wrapper .section #plant-card .card-info p {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #000000;
+}
+
+.wrapper .section #plant-card .card-info span {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.wrapper .section #plant-card .card-chart {
+    margin-top: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+
+.wrapper .section #plant-card .card-chart.active {
+    background: #74f485;
+}
+
+.wrapper .section #plant-container .card .canvas {
+    height: 100%;
+    width: 100%;
+}
+
+.wrapper .section #schedule-container {
+    display: flex;
+    width: 95%;
+    padding: 2rem 0;
+}
+
+.wrapper .section #schedule-container table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.wrapper .section #schedule-container table td, 
+.wrapper .section #schedule-container table th {
+    border: 1px solid #ddd;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.wrapper .section #schedule-container table th {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    background-color: #04AA6D;
+    color: white;
+  }
